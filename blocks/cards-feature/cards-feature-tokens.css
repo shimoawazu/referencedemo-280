@@ -1,0 +1,89 @@
+/* blocks/cards-feature/cards-feature-tokens.css */
+
+/* ⚠️ ALL values extracted from cards-feature-measurements.txt */
+
+.cards-feature {
+  /* ===== LAYOUT & DIMENSIONS ===== */
+  --cards-feature-max-width: 1040px;
+  --cards-feature-padding-top: 48px;
+  --cards-feature-padding-right: 64px;
+  --cards-feature-padding-bottom: 48px;
+  --cards-feature-padding-left: 64px;
+  --cards-feature-gap: 24px;
+  --cards-feature-columns: 4;
+
+  /* ===== CONTAINER COLORS ===== */
+  --cards-feature-background: transparent;
+
+  /* ===== CARD (ITEM) PROPERTIES ===== */
+  --cards-feature-item-padding: 16px;
+  --cards-feature-item-background: #f5f5f5;
+  --cards-feature-item-gap: 16px;
+  --cards-feature-item-border-width: 0;
+  --cards-feature-item-border-style: none;
+  --cards-feature-item-border-color: transparent;
+  --cards-feature-item-border-radius: 8px;
+  --cards-feature-item-shadow-x: 0;
+  --cards-feature-item-shadow-y: 0;
+  --cards-feature-item-shadow-blur: 0;
+  --cards-feature-item-shadow-spread: 0;
+  --cards-feature-item-shadow-color: transparent;
+
+  /* ===== IMAGE PLACEHOLDER ===== */
+  --cards-feature-image-height: 160px;
+  --cards-feature-image-background: #d9d9e0;
+  --cards-feature-image-border-radius: 0;
+  --cards-feature-image-object-fit: cover;
+
+  /* ===== TYPOGRAPHY - HEADING ===== */
+  --cards-feature-heading-font-family: 'Inter', sans-serif;
+  --cards-feature-heading-font-size: 18px;
+  --cards-feature-heading-font-weight: 700;
+  --cards-feature-heading-font-style: normal;
+  --cards-feature-heading-line-height: 22px;
+  --cards-feature-heading-letter-spacing: 0;
+  --cards-feature-heading-text-transform: none;
+  --cards-feature-heading-color: #000;
+  --cards-feature-heading-margin-bottom: 16px;
+
+  /* ===== TYPOGRAPHY - BODY ===== */
+  --cards-feature-body-font-family: 'Inter', sans-serif;
+  --cards-feature-body-font-size: 14px;
+  --cards-feature-body-font-weight: 400;
+  --cards-feature-body-font-style: normal;
+  --cards-feature-body-line-height: 17px;
+  --cards-feature-body-letter-spacing: 0;
+  --cards-feature-body-color: #000;
+  --cards-feature-body-margin-bottom: 16px;
+
+  /* ===== TYPOGRAPHY - CTA/BUTTON ===== */
+  --cards-feature-button-font-family: 'Inter', sans-serif;
+  --cards-feature-button-font-size: 14px;
+  --cards-feature-button-font-weight: 400;
+  --cards-feature-button-font-style: normal;
+  --cards-feature-button-line-height: 17px;
+  --cards-feature-button-letter-spacing: 0;
+  --cards-feature-button-text-transform: none;
+  --cards-feature-button-color: #000;
+  --cards-feature-button-background: #f8ea36;
+  --cards-feature-button-border-radius: 8px;
+  --cards-feature-button-padding-x: 16px;
+  --cards-feature-button-padding-y: 8px;
+
+  /* ===== HOVER STATES ===== */
+  --cards-feature-item-hover-background: #ececec;
+  --cards-feature-item-hover-shadow-y: 0;
+  --cards-feature-item-hover-shadow-blur: 0;
+  --cards-feature-item-hover-shadow-color: transparent;
+  --cards-feature-item-hover-transform: none;
+  --cards-feature-button-hover-background: #e6d800;
+  --cards-feature-button-hover-color: #000;
+
+  /* ===== TRANSITIONS ===== */
+  --cards-feature-transition-duration: 200ms;
+  --cards-feature-transition-timing: ease;
+
+  /* ===== SPACING BETWEEN ELEMENTS ===== */
+  --cards-feature-image-margin-bottom: 16px;
+  --cards-feature-content-gap: 16px;
+}

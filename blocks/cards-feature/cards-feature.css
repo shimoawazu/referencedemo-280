@@ -1,0 +1,143 @@
+/* Import component-specific tokens */
+@import url('./cards-feature-tokens.css');
+
+/* cards-feature block styles */
+.cards-feature {
+  background: var(--cards-feature-background);
+}
+
+.cards-feature > ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: var(--cards-feature-padding-top) var(--cards-feature-padding-right)
+    var(--cards-feature-padding-bottom) var(--cards-feature-padding-left);
+  max-width: var(--cards-feature-max-width);
+  display: grid;
+  grid-template-columns: repeat(var(--cards-feature-columns), 1fr);
+  gap: var(--cards-feature-gap);
+  box-sizing: border-box;
+}
+
+.cards-feature > ul > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cards-feature-item-gap);
+  padding: var(--cards-feature-item-padding);
+  background-color: var(--cards-feature-item-background);
+  border: var(--cards-feature-item-border-width) var(--cards-feature-item-border-style)
+    var(--cards-feature-item-border-color);
+  border-radius: var(--cards-feature-item-border-radius);
+  overflow: hidden;
+  transition: background-color var(--cards-feature-transition-duration) var(--cards-feature-transition-timing);
+}
+
+.cards-feature > ul > li:hover {
+  background-color: var(--cards-feature-item-hover-background);
+}
+
+/* --------------------------
+   Card Image
+--------------------------- */
+.cards-feature .cards-feature-card-image {
+  line-height: 0;
+}
+
+.cards-feature .cards-feature-card-image img {
+  width: 100%;
+  height: var(--cards-feature-image-height);
+  object-fit: var(--cards-feature-image-object-fit);
+  border-radius: var(--cards-feature-image-border-radius);
+  background-color: var(--cards-feature-image-background);
+  display: block;
+}
+
+/* --------------------------
+   Card Body
+--------------------------- */
+.cards-feature .cards-feature-card-body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cards-feature-content-gap);
+}
+
+.cards-feature .cards-feature-card-body > *:first-child {
+  margin-top: 0;
+}
+
+.cards-feature .cards-feature-card-body h1,
+.cards-feature .cards-feature-card-body h2,
+.cards-feature .cards-feature-card-body h3,
+.cards-feature .cards-feature-card-body h4,
+.cards-feature .cards-feature-card-body h5,
+.cards-feature .cards-feature-card-body h6 {
+  margin: 0;
+  font-family: var(--cards-feature-heading-font-family);
+  font-size: var(--cards-feature-heading-font-size);
+  font-weight: var(--cards-feature-heading-font-weight);
+  font-style: var(--cards-feature-heading-font-style);
+  line-height: var(--cards-feature-heading-line-height);
+  letter-spacing: var(--cards-feature-heading-letter-spacing);
+  text-transform: var(--cards-feature-heading-text-transform);
+  color: var(--cards-feature-heading-color);
+}
+
+.cards-feature .cards-feature-card-body p {
+  margin: 0;
+  font-family: var(--cards-feature-body-font-family);
+  font-size: var(--cards-feature-body-font-size);
+  font-weight: var(--cards-feature-body-font-weight);
+  font-style: var(--cards-feature-body-font-style);
+  line-height: var(--cards-feature-body-line-height);
+  letter-spacing: var(--cards-feature-body-letter-spacing);
+  color: var(--cards-feature-body-color);
+}
+
+/* --------------------------
+   Details Button
+--------------------------- */
+.cards-feature .cards-feature-card-body p.button-container {
+  margin: 0;
+}
+
+.cards-feature .cards-feature-card-body a.button,
+.cards-feature .cards-feature-card-body a:any-link.button {
+  display: inline-block;
+  margin: 0;
+  padding: var(--cards-feature-button-padding-y) var(--cards-feature-button-padding-x);
+  border: var(--cards-feature-item-border-width) var(--cards-feature-item-border-style)
+    var(--cards-feature-item-border-color);
+  border-radius: var(--cards-feature-button-border-radius);
+  background: var(--cards-feature-button-background);
+  font-family: var(--cards-feature-button-font-family);
+  font-size: var(--cards-feature-button-font-size);
+  font-weight: var(--cards-feature-button-font-weight);
+  font-style: var(--cards-feature-button-font-style);
+  line-height: var(--cards-feature-button-line-height);
+  letter-spacing: var(--cards-feature-button-letter-spacing);
+  text-transform: var(--cards-feature-button-text-transform);
+  color: var(--cards-feature-button-color);
+  text-decoration: none;
+  transition: background var(--cards-feature-transition-duration) var(--cards-feature-transition-timing);
+}
+
+.cards-feature .cards-feature-card-body a.button:hover {
+  background: var(--cards-feature-button-hover-background);
+  color: var(--cards-feature-button-hover-color);
+}
+
+/* --------------------------
+   Responsive
+--------------------------- */
+@media (width < 900px) {
+  .cards-feature > ul {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 32px 24px;
+  }
+}
+
+@media (width < 600px) {
+  .cards-feature > ul {
+    grid-template-columns: 1fr;
+  }
+}
