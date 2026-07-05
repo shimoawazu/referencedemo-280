@@ -1,0 +1,141 @@
+/* Import component-specific tokens */
+@import url('./hero-centered-tokens.css');
+
+/* hero-centered block styles */
+.hero-centered-container .hero-centered-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-centered {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hero-centered-gap);
+  min-height: var(--hero-centered-min-height);
+  padding: var(--hero-centered-padding-top) var(--hero-centered-padding-right)
+    var(--hero-centered-padding-bottom) var(--hero-centered-padding-left);
+  background: var(--hero-centered-background);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.hero-centered > div {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-centered .hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hero-centered-gap);
+  width: 100%;
+}
+
+/* --------------------------
+   Headings
+--------------------------- */
+.hero-centered h1,
+.hero-centered h2,
+.hero-centered h3,
+.hero-centered h4,
+.hero-centered h5,
+.hero-centered h6 {
+  width: 100%;
+  max-width: var(--hero-centered-heading-max-width);
+  margin: 0 auto;
+  font-family: var(--hero-centered-heading-font-family);
+  font-size: var(--hero-centered-heading-font-size);
+  font-weight: var(--hero-centered-heading-font-weight);
+  font-style: var(--hero-centered-heading-font-style);
+  line-height: var(--hero-centered-heading-line-height);
+  letter-spacing: var(--hero-centered-heading-letter-spacing);
+  text-transform: var(--hero-centered-heading-text-transform);
+  color: var(--hero-centered-heading-color);
+  text-align: center;
+}
+
+/* --------------------------
+   Body / Subheading
+--------------------------- */
+.hero-centered p {
+  width: 100%;
+  max-width: var(--hero-centered-body-max-width);
+  margin: 0 auto;
+  font-family: var(--hero-centered-body-font-family);
+  font-size: var(--hero-centered-body-font-size);
+  font-weight: var(--hero-centered-body-font-weight);
+  font-style: var(--hero-centered-body-font-style);
+  line-height: var(--hero-centered-body-line-height);
+  letter-spacing: var(--hero-centered-body-letter-spacing);
+  color: var(--hero-centered-body-color);
+  text-align: center;
+}
+
+/* --------------------------
+   CTA Button
+--------------------------- */
+.hero-centered .button-container {
+  margin: 0;
+  text-align: center;
+}
+
+.hero-centered .button-container a.button {
+  display: inline-block;
+  margin: 0;
+  padding: var(--hero-centered-button-padding-y) var(--hero-centered-button-padding-x);
+  border: var(--hero-centered-item-border-width) var(--hero-centered-item-border-style)
+    var(--hero-centered-item-border-color);
+  border-radius: var(--hero-centered-button-border-radius);
+  background: var(--hero-centered-button-background);
+  font-family: var(--hero-centered-button-font-family);
+  font-size: var(--hero-centered-button-font-size);
+  font-weight: var(--hero-centered-button-font-weight);
+  font-style: var(--hero-centered-button-font-style);
+  line-height: var(--hero-centered-button-line-height);
+  letter-spacing: var(--hero-centered-button-letter-spacing);
+  text-transform: var(--hero-centered-button-text-transform);
+  color: var(--hero-centered-button-color);
+  text-decoration: none;
+  transition: background var(--hero-centered-transition-duration) var(--hero-centered-transition-timing);
+}
+
+.hero-centered .button-container a.button:hover {
+  background: var(--hero-centered-button-hover-background);
+  color: var(--hero-centered-button-hover-color);
+}
+
+/* --------------------------
+   Background Image (optional, sits behind content)
+--------------------------- */
+.hero-centered picture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  box-sizing: border-box;
+}
+
+.hero-centered img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------
+   Responsive
+--------------------------- */
+@media (width < 768px) {
+  .hero-centered {
+    padding: 60px 24px;
+  }
+
+  .hero-centered h1,
+  .hero-centered h2,
+  .hero-centered h3 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+}

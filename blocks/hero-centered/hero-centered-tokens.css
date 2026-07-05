@@ -1,0 +1,82 @@
+/* blocks/hero-centered/hero-centered-tokens.css */
+
+/* ⚠️ ALL values extracted from hero-centered-measurements.txt */
+
+.hero-centered {
+  /* ===== LAYOUT & DIMENSIONS ===== */
+  --hero-centered-max-width: 960px;
+  --hero-centered-min-height: 420px;
+  --hero-centered-padding-top: 117.5px;
+  --hero-centered-padding-right: 0px;
+  --hero-centered-padding-bottom: 117.5px;
+  --hero-centered-padding-left: 0px;
+  --hero-centered-gap: 20px;
+  --hero-centered-columns: 1;
+  --hero-centered-heading-max-width: 788px;
+  --hero-centered-body-max-width: 600px;
+
+  /* ===== CONTAINER COLORS ===== */
+  --hero-centered-background: #b2c2e5;
+
+  /* ===== ITEM PROPERTIES (container has no border/shadow) ===== */
+  --hero-centered-item-border-width: 0;
+  --hero-centered-item-border-style: none;
+  --hero-centered-item-border-color: transparent;
+  --hero-centered-item-border-radius: 0;
+  --hero-centered-item-shadow-x: 0;
+  --hero-centered-item-shadow-y: 0;
+  --hero-centered-item-shadow-blur: 0;
+  --hero-centered-item-shadow-spread: 0;
+  --hero-centered-item-shadow-color: transparent;
+
+  /* ===== TYPOGRAPHY - HEADING ===== */
+  --hero-centered-heading-font-family: 'Inter', sans-serif;
+  --hero-centered-heading-font-size: 40px;
+  --hero-centered-heading-font-weight: 700;
+  --hero-centered-heading-font-style: normal;
+  --hero-centered-heading-line-height: 48px;
+  --hero-centered-heading-letter-spacing: 0;
+  --hero-centered-heading-text-transform: none;
+  --hero-centered-heading-color: #000;
+  --hero-centered-heading-margin-bottom: 20px;
+
+  /* ===== TYPOGRAPHY - BODY ===== */
+  --hero-centered-body-font-family: 'Inter', sans-serif;
+  --hero-centered-body-font-size: 18px;
+  --hero-centered-body-font-weight: 400;
+  --hero-centered-body-font-style: normal;
+  --hero-centered-body-line-height: 22px;
+  --hero-centered-body-letter-spacing: 0;
+  --hero-centered-body-color: #000;
+  --hero-centered-body-margin-bottom: 20px;
+
+  /* ===== TYPOGRAPHY - CTA/BUTTON ===== */
+  --hero-centered-button-font-family: 'Inter', sans-serif;
+  --hero-centered-button-font-size: 16px;
+  --hero-centered-button-font-weight: 500;
+  --hero-centered-button-font-style: normal;
+  --hero-centered-button-line-height: 19px;
+  --hero-centered-button-letter-spacing: 0;
+  --hero-centered-button-text-transform: none;
+  --hero-centered-button-color: #fff;
+  --hero-centered-button-background: #213373;
+  --hero-centered-button-border-radius: 6px;
+  --hero-centered-button-padding-x: 28px;
+  --hero-centered-button-padding-y: 14px;
+
+  /* ===== HOVER STATES ===== */
+  --hero-centered-item-hover-shadow-y: 0;
+  --hero-centered-item-hover-shadow-blur: 0;
+  --hero-centered-item-hover-shadow-color: transparent;
+  --hero-centered-item-hover-transform: none;
+  --hero-centered-button-hover-background: #1a294f;
+  --hero-centered-button-hover-color: #fff;
+
+  /* ===== TRANSITIONS ===== */
+  --hero-centered-transition-duration: 200ms;
+  --hero-centered-transition-timing: ease;
+
+  /* ===== SPACING BETWEEN ELEMENTS ===== */
+  --hero-centered-image-margin-bottom: 0;
+  --hero-centered-content-gap: 20px;
+}
