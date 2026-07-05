@@ -1,0 +1,40 @@
+{
+  "variantName": "hero-centered",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-07-05T12:10:00.000Z",
+  "sourceContext": {
+    "source": "figma",
+    "figmaFileKey": "Ix0lMsPu8HvzE5z23ZAxpc",
+    "figmaNodeId": "3:2",
+    "figmaNodeName": "wknd-hero (block-collection-pattern)",
+    "figmaUrl": "https://figma.com/design/Ix0lMsPu8HvzE5z23ZAxpc?node-id=3:2"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "colored",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "heading + subheading + 1 CTA",
+    "buttonCount": 1,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "hero sections",
+      "colored backgrounds"
+    ],
+    "notSuitableFor": [
+      "pages requiring images"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "hero-centered"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-05T12:15:00.000Z"
+  }
+}
