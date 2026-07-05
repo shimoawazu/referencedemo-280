@@ -126,6 +126,17 @@
   color: var(--cards-feature-button-hover-color);
 }
 
+/* 3rd Color (tertiary) CTA */
+.cards-feature .cards-feature-card-body .button-container.cta-button-tertiary a.button {
+  background: var(--cards-feature-button-tertiary-background);
+  color: var(--cards-feature-button-tertiary-color);
+}
+
+.cards-feature .cards-feature-card-body .button-container.cta-button-tertiary a.button:hover {
+  background: var(--cards-feature-button-tertiary-hover-background);
+  color: var(--cards-feature-button-tertiary-hover-color);
+}
+
 /* --------------------------
    Responsive
 --------------------------- */

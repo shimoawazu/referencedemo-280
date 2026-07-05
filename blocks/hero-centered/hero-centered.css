@@ -109,6 +109,17 @@
   color: var(--hero-centered-button-hover-color);
 }
 
+/* 3rd Color (tertiary) CTA */
+.hero-centered .button-container.cta-button-tertiary a.button {
+  background: var(--hero-centered-button-tertiary-background);
+  color: var(--hero-centered-button-tertiary-color);
+}
+
+.hero-centered .button-container.cta-button-tertiary a.button:hover {
+  background: var(--hero-centered-button-tertiary-hover-background);
+  color: var(--hero-centered-button-tertiary-hover-color);
+}
+
 /* --------------------------
    Background Image (optional, sits behind content)
 --------------------------- */
