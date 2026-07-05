@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-feature",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-05T13:52:00.000Z",
+  "sourceContext": {
+    "source": "figma",
+    "figmaFileKey": "Ix0lMsPu8HvzE5z23ZAxpc",
+    "figmaNodeId": "1:2",
+    "figmaNodeName": "wknd-cards (block-collection-pattern)",
+    "figmaUrl": "https://figma.com/design/Ix0lMsPu8HvzE5z23ZAxpc?node-id=1:2"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "4 cards, each: image + heading + body + 1 CTA",
+    "buttonCount": 4,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "feature sections",
+      "light backgrounds"
+    ],
+    "notSuitableFor": [
+      "text-only pages"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "cards-feature"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-05T13:56:00.000Z"
+  }
+}
