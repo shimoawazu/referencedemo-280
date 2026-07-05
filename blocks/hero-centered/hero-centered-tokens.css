@@ -63,6 +63,8 @@
   --hero-centered-button-border-radius: 6px;
   --hero-centered-button-padding-x: 28px;
   --hero-centered-button-padding-y: 14px;
+  --hero-centered-button-tertiary-background: #f8ea36;
+  --hero-centered-button-tertiary-color: #000;
 
   /* ===== HOVER STATES ===== */
   --hero-centered-item-hover-shadow-y: 0;
@@ -71,6 +73,8 @@
   --hero-centered-item-hover-transform: none;
   --hero-centered-button-hover-background: #1a294f;
   --hero-centered-button-hover-color: #fff;
+  --hero-centered-button-tertiary-hover-background: #e0d130;
+  --hero-centered-button-tertiary-hover-color: #000;
 
   /* ===== TRANSITIONS ===== */
   --hero-centered-transition-duration: 200ms;

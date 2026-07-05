@@ -69,6 +69,8 @@
   --cards-feature-button-border-radius: 8px;
   --cards-feature-button-padding-x: 16px;
   --cards-feature-button-padding-y: 8px;
+  --cards-feature-button-tertiary-background: #f8ea36;
+  --cards-feature-button-tertiary-color: #000;
 
   /* ===== HOVER STATES ===== */
   --cards-feature-item-hover-background: #ececec;
@@ -78,6 +80,8 @@
   --cards-feature-item-hover-transform: none;
   --cards-feature-button-hover-background: #e6d800;
   --cards-feature-button-hover-color: #000;
+  --cards-feature-button-tertiary-hover-background: #e0d130;
+  --cards-feature-button-tertiary-hover-color: #000;
 
   /* ===== TRANSITIONS ===== */
   --cards-feature-transition-duration: 200ms;

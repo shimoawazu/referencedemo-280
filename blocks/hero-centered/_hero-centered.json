@@ -136,6 +136,10 @@
               "value": "button-secondary"
             },
             {
+              "name": "Button tertiary",
+              "value": "button-tertiary"
+            },
+            {
               "name": "Link",
               "value": "link"
             }
