@@ -1,4 +1,5 @@
 /* blocks/columns-media/columns-media-tokens.css */
+
 /* ⚠️ ALL values extracted from columns-media-measurements.txt */
 
 .columns-media {
@@ -33,7 +34,7 @@
   --columns-media-heading-line-height: 31px;
   --columns-media-heading-letter-spacing: 0;
   --columns-media-heading-text-transform: none;
-  --columns-media-heading-color: #000000;
+  --columns-media-heading-color: #000;
   --columns-media-heading-margin-bottom: 16px;
 
   /* ===== TYPOGRAPHY - BODY ===== */
@@ -43,6 +44,6 @@
   --columns-media-body-font-style: normal;
   --columns-media-body-line-height: 18px;
   --columns-media-body-letter-spacing: 0;
-  --columns-media-body-color: #000000;
+  --columns-media-body-color: #000;
   --columns-media-body-margin-bottom: 0;
 }
