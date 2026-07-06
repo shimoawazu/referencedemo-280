@@ -1,0 +1,82 @@
+/* blocks/teaser-event/teaser-event-tokens.css */
+
+/* ⚠️ ALL values extracted from teaser-event-measurements.txt */
+
+.teaser-event {
+  /* ===== LAYOUT & DIMENSIONS ===== */
+  --teaser-event-max-width: 796px;
+  --teaser-event-padding-top: 32px;
+  --teaser-event-padding-right: 32px;
+  --teaser-event-padding-bottom: 32px;
+  --teaser-event-padding-left: 32px;
+  --teaser-event-gap: 32px;
+  --teaser-event-content-width: 380px;
+
+  /* ===== CONTAINER COLORS ===== */
+  --teaser-event-background: #fff;
+
+  /* ===== IMAGE ===== */
+  --teaser-event-image-width: 320px;
+  --teaser-event-image-height: 220px;
+  --teaser-event-image-background: #d9d9d9;
+  --teaser-event-image-border-radius: 0;
+  --teaser-event-image-object-fit: cover;
+
+  /* ===== CONTENT ===== */
+  --teaser-event-content-gap: 12px;
+  --teaser-event-cta-row-gap: 16px;
+
+  /* ===== TYPOGRAPHY - HEADING ===== */
+  --teaser-event-heading-font-family: 'Inter', sans-serif;
+  --teaser-event-heading-font-size: 13px;
+  --teaser-event-heading-font-weight: 700;
+  --teaser-event-heading-font-style: normal;
+  --teaser-event-heading-line-height: 16px;
+  --teaser-event-heading-letter-spacing: 0;
+  --teaser-event-heading-text-transform: none;
+  --teaser-event-heading-color: #000;
+  --teaser-event-heading-margin-bottom: 12px;
+
+  /* ===== TYPOGRAPHY - BODY ===== */
+  --teaser-event-body-font-family: 'Inter', sans-serif;
+  --teaser-event-body-font-size: 14px;
+  --teaser-event-body-font-weight: 400;
+  --teaser-event-body-font-style: normal;
+  --teaser-event-body-line-height: 17px;
+  --teaser-event-body-letter-spacing: 0;
+  --teaser-event-body-color: #000;
+  --teaser-event-body-margin-bottom: 12px;
+
+  /* ===== BUTTON - SHARED ===== */
+  --teaser-event-button-font-family: 'Inter', sans-serif;
+  --teaser-event-button-font-size: 14px;
+  --teaser-event-button-font-weight: 500;
+  --teaser-event-button-font-style: normal;
+  --teaser-event-button-line-height: 17px;
+  --teaser-event-button-letter-spacing: 0;
+  --teaser-event-button-text-transform: none;
+  --teaser-event-button-border-radius: 6px;
+  --teaser-event-button-border-width: 1px;
+  --teaser-event-button-border-style: solid;
+  --teaser-event-button-padding-x: 20px;
+  --teaser-event-button-padding-y: 10px;
+  --teaser-event-brand-color: #21336e;
+
+  /* ===== BUTTON - PRIMARY (RSVP) ===== */
+  --teaser-event-button-primary-background: #21336e;
+  --teaser-event-button-primary-color: #fff;
+  --teaser-event-button-primary-border-color: #21336e;
+  --teaser-event-button-primary-hover-background: #1a294f;
+  --teaser-event-button-primary-hover-color: #fff;
+
+  /* ===== BUTTON - SECONDARY (More Details) ===== */
+  --teaser-event-button-secondary-background: transparent;
+  --teaser-event-button-secondary-color: #21336e;
+  --teaser-event-button-secondary-border-color: #21336e;
+  --teaser-event-button-secondary-hover-background: #21336e;
+  --teaser-event-button-secondary-hover-color: #fff;
+
+  /* ===== TRANSITIONS ===== */
+  --teaser-event-transition-duration: 200ms;
+  --teaser-event-transition-timing: ease;
+}
