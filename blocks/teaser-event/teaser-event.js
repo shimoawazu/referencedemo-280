@@ -35,14 +35,18 @@ export default function decorate(block) {
     const ctaRow = div({ class: 'teaser-event-cta-row' });
     if (secondaryLabel && secondaryLink) {
       ctaRow.append(
-        p({ class: 'button-container' },
-          a({ href: secondaryLink, class: 'button teaser-event-button-secondary', title: secondaryLabel }, secondaryLabel)),
+        p(
+          { class: 'button-container' },
+          a({ href: secondaryLink, class: 'button teaser-event-button-secondary', title: secondaryLabel }, secondaryLabel),
+        ),
       );
     }
     if (primaryLabel && primaryLink) {
       ctaRow.append(
-        p({ class: 'button-container' },
-          a({ href: primaryLink, class: 'button teaser-event-button-primary', title: primaryLabel }, primaryLabel)),
+        p(
+          { class: 'button-container' },
+          a({ href: primaryLink, class: 'button teaser-event-button-primary', title: primaryLabel }, primaryLabel),
+        ),
       );
     }
     content.append(ctaRow);

@@ -1,5 +1,5 @@
 /* Import component-specific tokens */
-@import './teaser-event-tokens.css';
+@import url('./teaser-event-tokens.css');
 
 /* teaser-event block styles */
 .teaser-event {

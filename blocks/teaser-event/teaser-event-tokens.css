@@ -1,4 +1,5 @@
 /* blocks/teaser-event/teaser-event-tokens.css */
+
 /* ⚠️ ALL values extracted from teaser-event-measurements.txt */
 
 .teaser-event {
@@ -12,7 +13,7 @@
   --teaser-event-content-width: 380px;
 
   /* ===== CONTAINER COLORS ===== */
-  --teaser-event-background: #ffffff;
+  --teaser-event-background: #fff;
 
   /* ===== IMAGE ===== */
   --teaser-event-image-width: 320px;
@@ -33,7 +34,7 @@
   --teaser-event-heading-line-height: 16px;
   --teaser-event-heading-letter-spacing: 0;
   --teaser-event-heading-text-transform: none;
-  --teaser-event-heading-color: #000000;
+  --teaser-event-heading-color: #000;
   --teaser-event-heading-margin-bottom: 12px;
 
   /* ===== TYPOGRAPHY - BODY ===== */
@@ -43,7 +44,7 @@
   --teaser-event-body-font-style: normal;
   --teaser-event-body-line-height: 17px;
   --teaser-event-body-letter-spacing: 0;
-  --teaser-event-body-color: #000000;
+  --teaser-event-body-color: #000;
   --teaser-event-body-margin-bottom: 12px;
 
   /* ===== BUTTON - SHARED ===== */
@@ -63,17 +64,17 @@
 
   /* ===== BUTTON - PRIMARY (RSVP) ===== */
   --teaser-event-button-primary-background: #21336e;
-  --teaser-event-button-primary-color: #ffffff;
+  --teaser-event-button-primary-color: #fff;
   --teaser-event-button-primary-border-color: #21336e;
   --teaser-event-button-primary-hover-background: #1a294f;
-  --teaser-event-button-primary-hover-color: #ffffff;
+  --teaser-event-button-primary-hover-color: #fff;
 
   /* ===== BUTTON - SECONDARY (More Details) ===== */
   --teaser-event-button-secondary-background: transparent;
   --teaser-event-button-secondary-color: #21336e;
   --teaser-event-button-secondary-border-color: #21336e;
   --teaser-event-button-secondary-hover-background: #21336e;
-  --teaser-event-button-secondary-hover-color: #ffffff;
+  --teaser-event-button-secondary-hover-color: #fff;
 
   /* ===== TRANSITIONS ===== */
   --teaser-event-transition-duration: 200ms;
