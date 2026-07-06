@@ -1,21 +1,48 @@
-import { readBlockConfig } from '../../scripts/aem.js';
 import {
   div, a, p, h3, picture, img,
 } from '../../scripts/dom-helpers.js';
 
+/*
+ * Config values are read by their data-aue-prop in the Universal Editor, so the
+ * order of the config fields in the dialog does NOT matter there. On publish
+ * (no data-aue attributes) we fall back to the positional index, which must
+ * match the teaser-event model field order:
+ *   0  image
+ *   1  imageAlt
+ *   2  title
+ *   3  description
+ *   4  primaryLabel
+ *   5  primaryLink
+ *   6  secondaryLabel
+ *   7  secondaryLink
+ */
 export default function decorate(block) {
-  // Capture the authored image (picture) before reading config, since
-  // readBlockConfig only returns text/link values.
+  const childDivs = [...block.querySelectorAll(':scope > div')];
+
+  // Capture the authored image (picture) before reading config.
   const authoredPicture = block.querySelector('picture');
 
-  const cfg = readBlockConfig(block);
+  const readProp = (prop, index) => {
+    const authored = block.querySelector(`:scope > div [data-aue-prop="${prop}"]`);
+    if (authored) return authored.textContent.trim();
+    return childDivs[index]?.querySelector('div')?.textContent?.trim() || '';
+  };
 
-  const title = cfg.title || '';
-  const description = cfg.description || '';
-  const primaryLabel = cfg['primary-label'] || '';
-  const primaryLink = cfg['primary-link'] || '';
-  const secondaryLabel = cfg['secondary-label'] || '';
-  const secondaryLink = cfg['secondary-link'] || '';
+  const title = readProp('title', 2);
+  const description = readProp('description', 3);
+  const primaryLabel = readProp('primaryLabel', 4);
+  const secondaryLabel = readProp('secondaryLabel', 6);
+
+  // The link fields (aem-content) render as an <a> with no stable data-aue-prop,
+  // so — like hero/hero-centered's CTA link — they're read positionally.
+  const primaryLinkAnchor = childDivs[5]?.querySelector('a');
+  const primaryLink = primaryLinkAnchor?.getAttribute('href')
+    || childDivs[5]?.querySelector('div')?.textContent?.trim()
+    || '';
+  const secondaryLinkAnchor = childDivs[7]?.querySelector('a');
+  const secondaryLink = secondaryLinkAnchor?.getAttribute('href')
+    || childDivs[7]?.querySelector('div')?.textContent?.trim()
+    || '';
 
   // --- Media column (left) ---
   const media = div({ class: 'teaser-event-media' });
