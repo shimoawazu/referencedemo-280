@@ -2,47 +2,65 @@ import {
   div, a, p, h3, picture, img,
 } from '../../scripts/dom-helpers.js';
 
-/*
- * Config values are read by their data-aue-prop in the Universal Editor, so the
- * order of the config fields in the dialog does NOT matter there. On publish
- * (no data-aue attributes) we fall back to the positional index, which must
- * match the teaser-event model field order:
- *   0  image
- *   1  imageAlt
- *   2  title
- *   3  description
- *   4  primaryLabel
- *   5  primaryLink
- *   6  secondaryLabel
- *   7  secondaryLink
- */
-export default function decorate(block) {
-  const childDivs = [...block.querySelectorAll(':scope > div')];
+// Maps the normalized key-cell text (the published key-value row's first
+// column) to the teaser-event model's field name.
+const KEY_MAP = {
+  image: 'image',
+  imagealt: 'imageAlt',
+  title: 'title',
+  description: 'description',
+  primarylabel: 'primaryLabel',
+  primarylink: 'primaryLink',
+  secondarylabel: 'secondaryLabel',
+  secondarylink: 'secondaryLink',
+};
 
-  // Capture the authored image (picture) before reading config.
+function normalize(s) {
+  return (s || '').toLowerCase().replace(/[\s_-]+/g, '');
+}
+
+function getCellText(cell) {
+  return cell?.textContent?.trim() || '';
+}
+
+function getCellLink(cell) {
+  const anchor = cell?.querySelector('a');
+  return anchor?.getAttribute('href') || getCellText(cell);
+}
+
+export default function decorate(block) {
+  // Capture the authored image (picture) before reading the rest of the
+  // config, since the value cell may just carry a bare <img>/<picture>.
   const authoredPicture = block.querySelector('picture');
 
-  const readProp = (prop, index) => {
-    const authored = block.querySelector(`:scope > div [data-aue-prop="${prop}"]`);
+  // Map the published key-value rows (key cell -> value cell).
+  const config = {};
+  [...block.children].forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length < 2) return;
+    const field = KEY_MAP[normalize(cells[0].textContent || '')];
+    if (!field) return;
+    config[field] = cells[1];
+  });
+
+  // Read a field's value. In the Universal Editor each value carries a
+  // data-aue-prop, so reads are reliable regardless of the key-cell text or
+  // field order; on publish (no aue attributes) fall back to the key-value map.
+  const read = (name) => {
+    const authored = block.querySelector(`[data-aue-prop="${name}"]`);
     if (authored) return authored.textContent.trim();
-    return childDivs[index]?.querySelector('div')?.textContent?.trim() || '';
+    return getCellText(config[name]);
   };
 
-  const title = readProp('title', 2);
-  const description = readProp('description', 3);
-  const primaryLabel = readProp('primaryLabel', 4);
-  const secondaryLabel = readProp('secondaryLabel', 6);
+  const title = read('title');
+  const description = read('description');
+  const primaryLabel = read('primaryLabel');
+  const secondaryLabel = read('secondaryLabel');
 
-  // The link fields (aem-content) render as an <a> with no stable data-aue-prop,
-  // so — like hero/hero-centered's CTA link — they're read positionally.
-  const primaryLinkAnchor = childDivs[5]?.querySelector('a');
-  const primaryLink = primaryLinkAnchor?.getAttribute('href')
-    || childDivs[5]?.querySelector('div')?.textContent?.trim()
-    || '';
-  const secondaryLinkAnchor = childDivs[7]?.querySelector('a');
-  const secondaryLink = secondaryLinkAnchor?.getAttribute('href')
-    || childDivs[7]?.querySelector('div')?.textContent?.trim()
-    || '';
+  // The link fields (aem-content) don't carry a stable data-aue-prop, so
+  // they're always read from the value cell, like hero/hero-centered's CTA link.
+  const primaryLink = getCellLink(config.primaryLink);
+  const secondaryLink = getCellLink(config.secondaryLink);
 
   // --- Media column (left) ---
   const media = div({ class: 'teaser-event-media' });
