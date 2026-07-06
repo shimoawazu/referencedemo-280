@@ -6,7 +6,6 @@ import {
 // column) to the teaser-event model's field name.
 const KEY_MAP = {
   image: 'image',
-  imagealt: 'imageAlt',
   title: 'title',
   description: 'description',
   primarylabel: 'primaryLabel',
@@ -38,9 +37,10 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     const cells = [...row.children];
     if (cells.length < 2) return;
-    const field = KEY_MAP[normalize(cells[0].textContent || '')];
+    const [keyCell, valueCell] = cells;
+    const field = KEY_MAP[normalize(keyCell.textContent || '')];
     if (!field) return;
-    config[field] = cells[1];
+    config[field] = valueCell;
   });
 
   // Read a field's value. In the Universal Editor each value carries a

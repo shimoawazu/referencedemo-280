@@ -31,13 +31,6 @@
         {
           "component": "text",
           "valueType": "string",
-          "name": "imageAlt",
-          "label": "Alt",
-          "value": ""
-        },
-        {
-          "component": "text",
-          "valueType": "string",
           "name": "title",
           "label": "Title",
           "value": ""
