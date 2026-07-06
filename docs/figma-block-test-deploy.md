@@ -141,3 +141,29 @@ If the branch is unmerged, preview on the branch host below.
 If the workspace-service watcher can be brought back online, Steps 1–3 are automatic:
 re-saving `content/figma-block-test.plain.html` regenerates
 `migration-work/jcr-content/figma-block-test.xml`. Then only Steps 4–7 remain manual.
+
+---
+
+## Alternative: Universal Editor direct authoring (when the watcher is unavailable)
+
+If neither the watcher nor md2jcr tooling is available, the page can be built by
+hand in the Universal Editor instead of importing a JCR package. Use
+`content/figma-block-test.plain.html` as the source of truth for content.
+
+1. **Create the page.** In AEM Sites, under `content/referencedemo-280/language-masters/en`,
+   create a new page with slug `figma-block-test` (do not overwrite the `en` home page).
+   Open it in the Universal Editor.
+2. **Add sections + blocks.** For each of the 7 sections, insert the matching block
+   from the component picker in this order: `hero` → `cards-feature` → `teaser-event`
+   → `columns` (2 cols × 1 row) → `tabs` → `accordion` → `carousel`. (All are already
+   registered on the `figma-block-migration` branch.)
+3. **Transcribe content field-by-field.** Copy each value from the plain HTML into the
+   matching UE field. Enter CTAs into their dedicated label/link fields (never as inline
+   richtext links): hero `ctalabel`/`ctalink`, cards-feature `ctalabel`/`ctalink`/`ctastyle`,
+   teaser-event `primary*`/`secondary*`. Add child items where the block repeats
+   (4 cards, 3 tabs, 3 accordion items, 2 carousel slides).
+4. **Images.** Upload the 9 placeholders from `content/images/figma-block-test/` to
+   `/content/dam/referencedemo-280/figma-block-test/` and pick them in each image field.
+5. **Publish & verify** using the same URLs in Step 7.
+
+This produces the same authored page as the JCR-import route, just entered manually.
