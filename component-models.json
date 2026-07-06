@@ -6540,11 +6540,26 @@
     "id": "teaser-event",
     "fields": [
       {
-        "component": "reference",
+        "component": "container",
         "valueType": "string",
-        "name": "asset",
-        "label": "Image",
-        "multi": false
+        "name": "imageProperties",
+        "label": "Image Properties",
+        "fields": [
+          {
+            "component": "reference",
+            "valueType": "string",
+            "name": "asset",
+            "label": "Image",
+            "multi": false
+          },
+          {
+            "component": "text",
+            "valueType": "string",
+            "name": "assetAlt",
+            "label": "Alt Text",
+            "value": ""
+          }
+        ]
       },
       {
         "component": "text",
