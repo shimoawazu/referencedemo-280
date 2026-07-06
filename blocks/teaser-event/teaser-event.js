@@ -5,7 +5,7 @@ import {
 // Maps the normalized key-cell text (the published key-value row's first
 // column) to the teaser-event model's field name.
 const KEY_MAP = {
-  image: 'image',
+  image: 'asset',
   title: 'title',
   description: 'description',
   primarylabel: 'primaryLabel',
