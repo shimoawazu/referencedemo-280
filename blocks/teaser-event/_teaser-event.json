@@ -1,0 +1,86 @@
+{
+  "definitions": [
+    {
+      "title": "Teaser Event",
+      "id": "teaser-event",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Teaser Event",
+              "model": "teaser-event",
+              "key-value": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "teaser-event",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Alt",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Title",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "description",
+          "label": "Description",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "primaryLabel",
+          "label": "Primary Label",
+          "description": "Text for the primary (filled) CTA button, e.g. RSVP.",
+          "value": ""
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "primaryLink",
+          "label": "Primary Link",
+          "description": "Target for the primary CTA button."
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "secondaryLabel",
+          "label": "Secondary Label",
+          "description": "Text for the secondary (outline) CTA button, e.g. More Details.",
+          "value": ""
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "secondaryLink",
+          "label": "Secondary Link",
+          "description": "Target for the secondary CTA button."
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

@@ -1,0 +1,42 @@
+{
+  "variantName": "teaser-event",
+  "baseBlock": "teaser",
+  "version": "1.0.0",
+  "created": "2026-07-06T00:10:00.000Z",
+  "sourceContext": {
+    "source": "figma",
+    "figmaFileKey": "Ix0lMsPu8HvzE5z23ZAxpc",
+    "figmaNodeId": "13:7",
+    "figmaNodeName": "wknd-teaser (block-collection-pattern)",
+    "figmaUrl": "https://figma.com/design/Ix0lMsPu8HvzE5z23ZAxpc?node-id=13:7"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "minimal",
+    "purpose": "teaser",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image left + heading + description + 2 CTAs (primary + secondary)",
+    "buttonCount": 2,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "event promotion teasers",
+      "light backgrounds",
+      "side-by-side image and copy"
+    ],
+    "notSuitableFor": [
+      "full-width hero banners",
+      "text-only pages"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "teaser-event"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-06T00:10:00.000Z"
+  }
+}
