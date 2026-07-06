@@ -15,7 +15,6 @@
       "cards-feature",
       "carousel",
       "columns",
-      "columns-media",
       "contentfragment",
       "dm-asset",
       "dm-template",
@@ -55,12 +54,6 @@
   },
   {
     "id": "columns",
-    "components": [
-      "column"
-    ]
-  },
-  {
-    "id": "columns-media",
     "components": [
       "column"
     ]
