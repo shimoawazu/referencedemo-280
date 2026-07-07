@@ -18,12 +18,6 @@
   width: 100%;
 }
 
-.carousel-container .carousel-wrapper {
-  padding: 0;
-  margin: 0;
-  width: auto;
-  max-width: initial;
-}
 .carousel-container .carousel-wrapper .carousel {
   padding: 5%;
   position: relative;
@@ -31,23 +25,26 @@
 .carousel-container .carousel-wrapper .carousel > ul {
   list-style: none;
   margin: 0;
-  padding: 0;
   min-width: initial;
   width: auto;
+  display: flex;
   flex-direction: row;
-  flex: 1;
   gap: 30px;
   padding: 10px 0px;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  transition: transform 0.3s ease-in-out;
 }
 .carousel-container .carousel-wrapper .carousel > ul > li {
   display: inline-flex;
   flex-direction: column;
   width: auto;
   min-width: initial;
-  max-width: initial;
+  max-width: 100%;
   padding: 0px;
-  flex: 1 1 0%;
+  flex: 0 0 100%;
   border:none;
+  scroll-snap-align: start;
 }
 .carousel-container .carousel-wrapper .carousel .cards-card-body {
   margin: auto;
@@ -442,36 +439,8 @@
   .carousel-container .carousel-wrapper .carousel {
     padding: 0 5%;
   }
-    
-  /* Keep UL in slider layout */
-  .carousel-container .carousel-wrapper .carousel > ul {
-    display: flex !important;
-    flex-direction: row;
-    overflow: hidden; /* hide other slides */
-    scroll-snap-type: x mandatory;
-    transition: transform 0.3s ease-in-out;
-  }
 
-  .carousel-container .carousel-wrapper .carousel > ul > li {
-    flex: 0 0 100%; /* each slide takes full width */
-    max-width: 100%;
-    margin: 0;
-    scroll-snap-align: start;
-  }
-    
- 
- /*
-  .carousel-container .carousel-wrapper .carousel > ul {
-    display: block;
-  }
-  .carousel-container .carousel-wrapper .carousel > ul > li {
-    width: 100%;
-    margin: 15px 0;
-  }
- */
-
-
-  .carousel-container .carousel-wrapper .carousel .cards-card-body h1, 
+  .carousel-container .carousel-wrapper .carousel .cards-card-body h1,
   .carousel-container .carousel-wrapper .carousel .cards-card-body h2, 
   .carousel-container .carousel-wrapper .carousel .cards-card-body h3, 
   .carousel-container .carousel-wrapper .carousel .cards-card-body h4, 

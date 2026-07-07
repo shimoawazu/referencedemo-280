@@ -87,18 +87,8 @@ html[dir="rtl"] .carousel-container .button-container button {
   flex: 2;
   overflow: hidden;
   position: initial;
-  padding-right: 0;
-  padding-left: 0;
-  margin: 0;
-  width: 100%;
-  max-width: initial;
 }
 
-html[dir="rtl"] .section > div.carousel-wrapper {
-  padding-left: 0;
-  padding-right: 108px;
-}
-  
 .carousel > ul {
   padding: 0;
   display: grid;
