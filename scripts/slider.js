@@ -152,9 +152,12 @@ export default async function createSlider(block) {
     (carouselContainer || carousel).addEventListener('mouseenter', stop);
     (carouselContainer || carousel).addEventListener('mouseleave', start);
 
-    // Stop on manual navigation
-    moveLeftBtns.forEach((btn) => btn.addEventListener('click', stop, true));
-    moveRightBtns.forEach((btn) => btn.addEventListener('click', stop, true));
+    // Stop on manual navigation. tick() above also clicks .next, so only
+    // react to genuine user clicks (isTrusted) — otherwise autoplay's own
+    // synthetic click would stop the timer after the very first tick.
+    const stopIfTrusted = (e) => { if (e.isTrusted) stop(); };
+    moveLeftBtns.forEach((btn) => btn.addEventListener('click', stopIfTrusted, true));
+    moveRightBtns.forEach((btn) => btn.addEventListener('click', stopIfTrusted, true));
 
     // Pause when tab not visible to save resources
     document.addEventListener('visibilitychange', () => {
