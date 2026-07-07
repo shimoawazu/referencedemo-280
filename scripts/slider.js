@@ -42,24 +42,25 @@ export default async function createSlider(block) {
     threshold: 0.25,
   };
 
+  // Advances to the next/previous slide, wrapping around at either end
+  // (last -> first going forward, first -> last going backward) instead of
+  // stopping. The target index is computed from the actual scrollLeft (not
+  // accumulated) so rounding drift can never desync it from the real slide.
   function moveDirection(carousel, itemWidth, option) {
     const carouselItems = carousel.querySelector('ul');
+    const totalItems = carouselItems.children.length || 1;
+    const currentIndex = Math.round(carouselItems.scrollLeft / itemWidth);
+    const nextIndex = option === '+'
+      ? (currentIndex + 1) % totalItems
+      : (currentIndex - 1 + totalItems) % totalItems;
+
     carouselItems.style.transition = 'all 0.5s ease-in-out';
-    if (option === '+') {
-      carouselItems.style.transform = `translateX(-${itemWidth}px)`;
-      setTimeout(() => {
-        carouselItems.style.transition = 'none';
-        carouselItems.style.transform = 'translateX(0)';
-        carouselItems.scrollLeft += itemWidth;
-      }, 500);
-    } else {
-      carouselItems.style.transform = `translateX(${itemWidth}px)`;
-      setTimeout(() => {
-        carouselItems.style.transition = 'none';
-        carouselItems.style.transform = 'translateX(0)';
-        carouselItems.scrollLeft -= itemWidth;
-      }, 500);
-    }
+    carouselItems.style.transform = option === '+' ? `translateX(-${itemWidth}px)` : `translateX(${itemWidth}px)`;
+    setTimeout(() => {
+      carouselItems.style.transition = 'none';
+      carouselItems.style.transform = 'translateX(0)';
+      carouselItems.scrollLeft = nextIndex * itemWidth;
+    }, 500);
   }
 
   // Button Event Handler
@@ -86,8 +87,6 @@ export default async function createSlider(block) {
   // Observer Callback Function
   const callBack = (entries) => {
     const dir = document.documentElement.dir || 'ltr';
-    let disableLeftBtn = false;
-    let disableRightBtn = false;
 
     if (dir === 'rtl') {
       document.querySelector('.next').style.right = 'auto';
@@ -96,6 +95,7 @@ export default async function createSlider(block) {
       document.querySelector('.prev').style.left = '0';
     }
 
+    // Prev/next stay enabled at both ends since the carousel loops.
     entries.forEach((entry) => {
       const {
         target,
@@ -110,30 +110,6 @@ export default async function createSlider(block) {
         target.style.transition = 'opacity 0.3s ease-in-out';
       }
     });
-
-    try {
-      if (entries[0].target.parentElement.children[0].className === 'active') {
-        if (dir === 'rtl') {
-          disableLeftBtn = false;
-          disableRightBtn = true;
-        } else {
-          disableLeftBtn = true;
-          disableRightBtn = false;
-        }
-      } else if (entries[0].target.parentElement.children[entries[0].target.parentElement.children.length - 1].className === 'active') {
-        if (dir === 'rtl') {
-          disableLeftBtn = true;
-          disableRightBtn = false;
-        } else {
-          disableLeftBtn = false;
-          disableRightBtn = true;
-        }
-      }
-      moveLeftBtn.disabled = disableLeftBtn;
-      moveRightBtn.disabled = disableRightBtn;
-    } catch (e) {
-      /* error structure was not as expected */
-    }
   };
 
   // Create Observer instance
