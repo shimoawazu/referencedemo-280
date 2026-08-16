@@ -44,12 +44,13 @@ async function resolveOpenApiUrl(damPath) {
 }
 
 function getPageImageUrl(baseUrl, assetIdPath, page) {
+  // The delivery backend rejects query params on the bare URN root (400) —
+  // an "/as/{name}" segment is required before the query string.
   const params = new URLSearchParams();
   params.set('page', String(page));
   params.set('width', '1600');
   params.set('quality', '85');
-  params.set('preferwebp', 'true');
-  return `${baseUrl}${assetIdPath}?${params.toString()}`;
+  return `${baseUrl}${assetIdPath}/as/page.jpg?${params.toString()}`;
 }
 
 async function fetchPageCount(baseUrl, assetIdPath) {
