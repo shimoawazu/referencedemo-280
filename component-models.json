@@ -817,11 +817,13 @@
     "id": "dynamic-media-pdf-viewer",
     "fields": [
       {
-        "component": "custom-asset-namespace:custom-asset",
+        "component": "reference",
+        "valueType": "string",
         "name": "pdf",
         "label": "PDF",
-        "configUrl": "/content/dam/config/pdf.config.json",
-        "valueType": "string"
+        "multi": false,
+        "description": "Select the PDF asset from AEM Assets (Dynamic Media / DM OpenAPI enabled repository).",
+        "required": true
       },
       {
         "component": "text",
