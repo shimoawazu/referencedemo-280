@@ -1,4 +1,47 @@
+import { isAuthorEnvironment } from '../../scripts/scripts.js';
+import { getHostname } from '../../scripts/utils.js';
+
 const urnPattern = /(\/adobe\/assets\/urn:[^/]+)/i;
+
+// The "reference" field only resolves to a plain "/content/dam/..." path for
+// non-image assets (no automatic OpenAPI rewrite the way images get one), so
+// derive the author/publish and DM OpenAPI delivery origins ourselves.
+async function resolveAemOrigins() {
+  if (isAuthorEnvironment()) {
+    return {
+      isAuthor: true,
+      lookupOrigin: '',
+      deliveryOrigin: `https://${window.location.hostname.replace('author-', 'delivery-')}`,
+    };
+  }
+  const rawHostname = (await getHostname()) || '';
+  const hostname = rawHostname.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  if (!hostname) return null;
+  return {
+    isAuthor: false,
+    lookupOrigin: `https://${hostname.replace('author-', 'publish-')}`,
+    deliveryOrigin: `https://${hostname.replace('author-', 'delivery-')}`,
+  };
+}
+
+// Resolve a DAM content path to its DM OpenAPI delivery URL via the asset's
+// jcr:uuid (urn:aaid:aem:{uuid}).
+async function resolveOpenApiUrl(damPath) {
+  const origins = await resolveAemOrigins();
+  if (!origins) return null;
+  const { isAuthor, lookupOrigin, deliveryOrigin } = origins;
+  try {
+    const res = await fetch(`${isAuthor ? '' : lookupOrigin}${damPath}.1.json`, isAuthor ? { credentials: 'include' } : {});
+    if (!res.ok) return null;
+    const data = await res.json();
+    const uuid = data['jcr:uuid'];
+    if (!uuid) return null;
+    const filename = damPath.split('/').pop();
+    return `${deliveryOrigin}/adobe/assets/urn:aaid:aem:${uuid}/original/as/${filename}`;
+  } catch (error) {
+    return null;
+  }
+}
 
 function getPageImageUrl(baseUrl, assetIdPath, page) {
   const params = new URLSearchParams();
@@ -39,15 +82,24 @@ export default async function decorate(block) {
     return;
   }
 
-  const pdfUrl = link.href;
-  const match = pdfUrl.match(urnPattern);
+  let urlObj = new URL(link.href);
+  let match = urlObj.pathname.match(urnPattern);
+
   if (!match) {
-    console.error('Invalid Dynamic Media PDF URL format');
-    block.innerHTML = '';
-    return;
+    // Plain DAM reference (e.g. "/content/dam/.../file.pdf") — resolve it to
+    // the DM OpenAPI delivery URL.
+    const resolvedUrl = urlObj.pathname.startsWith('/content/dam/')
+      ? await resolveOpenApiUrl(urlObj.pathname)
+      : null;
+    if (!resolvedUrl) {
+      console.error('Invalid Dynamic Media PDF URL format');
+      block.innerHTML = '';
+      return;
+    }
+    urlObj = new URL(resolvedUrl);
+    match = urlObj.pathname.match(urnPattern);
   }
 
-  const urlObj = new URL(pdfUrl);
   const baseUrl = `${urlObj.protocol}//${urlObj.hostname}`;
   const assetIdPath = match[1];
 
