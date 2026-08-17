@@ -1,5 +1,4 @@
 import { getDynamicMediaServerURL } from '../../scripts/utils.js';
-import { getMetadataUrl } from '../../scripts/scripts.js';
 
 
 /**
@@ -64,6 +63,7 @@ export default async function decorate(block) {
           //dmUrlEl.remove();
       }
       if(deliveryType === 'dm-openapi'){
+        block.children[7]?.remove();
         block.children[6]?.remove();
         block.children[5]?.remove();
         block.children[4]?.remove();
@@ -95,6 +95,7 @@ export default async function decorate(block) {
         const cropVal = inputs[4]?.textContent?.trim();
         const altFromAuthor = inputs[5]?.textContent?.trim();
         const enableSmartCrop = inputs[6]?.textContent?.trim();
+        const breakpointsRaw = inputs[7]?.textContent?.trim();
 
         if (!baseUrl) {
           console.error("OpenAPI delivery URL not found. Ensure the DM delivery repository asset is selected.");
@@ -110,49 +111,21 @@ export default async function decorate(block) {
 
         block.innerHTML = '';
 
-        let smartcrops;
-        if (enableSmartCrop === 'true') {
-          const metadataUrl = getMetadataUrl(baseUrl);
-          if (metadataUrl) {
-            try {
-              const response = await fetch(metadataUrl);
-              if (response.ok) {
-                const metadata = await response.json();
-                smartcrops = metadata?.repositoryMetadata?.smartcrops;
-              } else {
-                console.error(`Failed to fetch metadata: ${response.status}`);
-              }
-            } catch (error) {
-              console.error('Error fetching Dynamic Media metadata:', error);
-            }
-          }
-        }
+        // Images don't expose their Smart Crop names via the metadata endpoint
+        // (unlike video), so the author supplies "minWidth:cropName" pairs
+        // directly from the asset's Image Processing Profile, e.g.
+        // "0:small,700:medium,1300:large".
+        const breakpoints = (enableSmartCrop === 'true' && breakpointsRaw)
+          ? breakpointsRaw.split(',').map((entry) => {
+            const [widthStr, cropName] = entry.split(':').map((part) => part.trim());
+            return { minWidth: parseInt(widthStr, 10) || 0, cropName };
+          }).filter((bp) => bp.cropName).sort((a, b) => b.minWidth - a.minWidth)
+          : [];
 
-        const cropKeys = smartcrops ? Object.keys(smartcrops) : [];
-        if (cropKeys.length) {
-          // Sort by width desc (largest → smallest) so breakpoints stack correctly
-          const cropOrder = cropKeys.sort((a, b) => {
-            const widthA = parseInt(smartcrops[a].width, 10) || 0;
-            const widthB = parseInt(smartcrops[b].width, 10) || 0;
-            return widthB - widthA;
-          });
-          const largestCropWidth = Math.max(
-            ...cropOrder.map((cropName) => parseInt(smartcrops[cropName].width, 10) || 0),
-          );
-          const extraLargeBreakpoint = Math.max(largestCropWidth + 1, 1300);
-
+        if (breakpoints.length) {
           const pic = document.createElement('picture');
 
-          // Extra-large screen source (no smartcrop, full image)
-          const sourceExtraLarge = document.createElement('source');
-          sourceExtraLarge.srcset = `${baseUrl}?${modifierParams.toString()}`;
-          sourceExtraLarge.media = `(min-width: ${extraLargeBreakpoint}px)`;
-          pic.appendChild(sourceExtraLarge);
-
-          cropOrder.forEach((cropName) => {
-            const cropInfo = smartcrops[cropName];
-            if (!cropInfo) return;
-            const minWidth = parseInt(cropInfo.width, 10) || 0;
+          breakpoints.forEach(({ minWidth, cropName }) => {
             const cropParams = new URLSearchParams(modifierParams);
             cropParams.set('smartcrop', cropName);
             const source = document.createElement('source');
@@ -161,8 +134,11 @@ export default async function decorate(block) {
             pic.appendChild(source);
           });
 
+          const fallbackParams = new URLSearchParams(modifierParams);
+          fallbackParams.set('smartcrop', breakpoints[breakpoints.length - 1].cropName);
+
           const img = document.createElement('img');
-          img.setAttribute('src', `${baseUrl}?${modifierParams.toString()}`);
+          img.setAttribute('src', `${baseUrl}?${fallbackParams.toString()}`);
           img.setAttribute('alt', altFromAuthor || 'dynamic media image');
           img.setAttribute('loading', 'lazy');
           pic.appendChild(img);

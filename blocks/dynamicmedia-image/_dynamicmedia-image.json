@@ -168,6 +168,16 @@
           "description": "Enable smart crop on the asset. Requires Smart Crop presets configured on the DM asset/folder.",
           "value": false,
           "valueType": "boolean"
+        },
+        {
+          "condition": {
+            "===": [{ "var": "delivery_Type" }, "dm-openapi"]
+          },
+          "component": "text",
+          "name": "smartCropBreakpoints",
+          "label": "Smart Crop Breakpoints",
+          "description": "Comma-separated min-width:crop-name pairs from the asset's Image Processing Profile, e.g. 0:small,700:medium,1300:large",
+          "valueType": "string"
         }
       ]
     }
