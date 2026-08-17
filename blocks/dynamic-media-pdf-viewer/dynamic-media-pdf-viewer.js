@@ -1,5 +1,6 @@
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
 import { getHostname } from '../../scripts/utils.js';
+import { fetchPlaceholders } from '../../scripts/aem.js';
 
 const urnPattern = /(\/adobe\/assets\/urn:[^/]+)/i;
 
@@ -25,7 +26,10 @@ async function resolveAemOrigins() {
 }
 
 // Resolve a DAM content path to its DM OpenAPI delivery URL via the asset's
-// jcr:uuid (urn:aaid:aem:{uuid}).
+// jcr:uuid (urn:aaid:aem:{uuid}). Dynamic Media with OpenAPI's image
+// transform pipeline does not support PDF page rasterization (JPEG/PNG/GIF/
+// TIFF only), so this points at the "original" rendition — the Adobe PDF
+// Embed API renders and paginates the PDF itself, client-side.
 async function resolveOpenApiUrl(damPath) {
   const origins = await resolveAemOrigins();
   if (!origins) return null;
@@ -43,33 +47,14 @@ async function resolveOpenApiUrl(damPath) {
   }
 }
 
-function getPageImageUrl(baseUrl, assetIdPath, page) {
-  // The delivery backend rejects query params on the bare URN root (400) —
-  // an "/as/{name}" segment is required before the query string.
-  const params = new URLSearchParams();
-  params.set('page', String(page));
-  params.set('width', '1600');
-  params.set('quality', '85');
-  return `${baseUrl}${assetIdPath}/as/page.jpg?${params.toString()}`;
-}
-
-async function fetchPageCount(baseUrl, assetIdPath) {
-  try {
-    const res = await fetch(`${baseUrl}${assetIdPath}/metadata`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    const metadata = data.metadata || data;
-    const candidates = [
-      metadata.pageCount,
-      metadata['tiff:pageCount'],
-      metadata['pdf:pageCount'],
-      metadata['dam:pageCount'],
-    ];
-    const found = candidates.find((value) => typeof value === 'number' && value > 0);
-    return found || null;
-  } catch (error) {
-    return null;
-  }
+function waitForAdobeDCView() {
+  return new Promise((resolve) => {
+    if (window.AdobeDC) {
+      resolve(window.AdobeDC);
+      return;
+    }
+    document.addEventListener('adobe_dc_view_sdk.ready', () => resolve(window.AdobeDC), { once: true });
+  });
 }
 
 /**
@@ -101,8 +86,8 @@ export default async function decorate(block) {
     match = urlObj.pathname.match(urnPattern);
   }
 
-  const baseUrl = `${urlObj.protocol}//${urlObj.hostname}`;
-  const assetIdPath = match[1];
+  const pdfUrl = urlObj.href;
+  const filename = urlObj.pathname.split('/').pop();
 
   const children = Array.from(block.children);
   const getTextFromChild = (index) => {
@@ -116,9 +101,6 @@ export default async function decorate(block) {
   const startPageRaw = parseInt(getTextFromChild(2), 10);
   const startPage = Number.isFinite(startPageRaw) && startPageRaw > 0 ? startPageRaw : 1;
   const showPageIndicator = getTextFromChild(3)?.toLowerCase() !== 'false';
-
-  let currentPage = startPage;
-  let totalPages = null;
 
   block.innerHTML = '';
 
@@ -139,17 +121,19 @@ export default async function decorate(block) {
   prevBtn.type = 'button';
   prevBtn.className = 'dynamic-media-pdf-viewer-nav dynamic-media-pdf-viewer-prev';
   prevBtn.setAttribute('aria-label', 'Previous page');
+  prevBtn.disabled = true;
 
-  const img = document.createElement('img');
-  img.className = 'dynamic-media-pdf-viewer-page';
-  img.loading = 'lazy';
+  const embedHost = document.createElement('div');
+  embedHost.className = 'dynamic-media-pdf-viewer-embed';
+  embedHost.id = `dynamic-media-pdf-viewer-embed-${Math.random().toString(36).slice(2, 10)}`;
 
   const nextBtn = document.createElement('button');
   nextBtn.type = 'button';
   nextBtn.className = 'dynamic-media-pdf-viewer-nav dynamic-media-pdf-viewer-next';
   nextBtn.setAttribute('aria-label', 'Next page');
+  nextBtn.disabled = true;
 
-  stage.append(prevBtn, img, nextBtn);
+  stage.append(prevBtn, embedHost, nextBtn);
   viewer.append(stage);
 
   const indicator = document.createElement('p');
@@ -157,6 +141,20 @@ export default async function decorate(block) {
   if (showPageIndicator) viewer.append(indicator);
 
   block.append(viewer);
+
+  const placeholders = await fetchPlaceholders().catch(() => ({}));
+  const clientId = placeholders.pdfEmbedClientId;
+  if (!clientId) {
+    stage.innerHTML = '';
+    const errorMsg = document.createElement('p');
+    errorMsg.className = 'dynamic-media-pdf-viewer-error';
+    errorMsg.textContent = 'PDF viewer is not configured: set the "pdfEmbedClientId" placeholder to an Adobe PDF Embed API client ID.';
+    stage.append(errorMsg);
+    return;
+  }
+
+  let currentPage = startPage;
+  let totalPages = null;
 
   function updateIndicator() {
     if (!showPageIndicator) return;
@@ -168,40 +166,44 @@ export default async function decorate(block) {
     nextBtn.disabled = totalPages != null && currentPage >= totalPages;
   }
 
-  function renderPage(page) {
-    img.alt = title ? `${title} - page ${page}` : `PDF page ${page}`;
-    img.src = getPageImageUrl(baseUrl, assetIdPath, page);
-    updateIndicator();
-    updateNavState();
-  }
-
-  img.addEventListener('error', () => {
-    if (currentPage <= 1) {
-      stage.innerHTML = '';
-      const errorMsg = document.createElement('p');
-      errorMsg.className = 'dynamic-media-pdf-viewer-error';
-      errorMsg.textContent = 'Unable to load PDF.';
-      stage.append(errorMsg);
-      return;
-    }
-    // Beyond the last page: lock bounds here and step back.
-    totalPages = currentPage - 1;
-    currentPage = totalPages;
-    renderPage(currentPage);
+  const AdobeDC = await waitForAdobeDCView();
+  const adobeDCView = new AdobeDC.View({ clientId, divId: embedHost.id });
+  const previewFilePromise = adobeDCView.previewFile({
+    content: { location: { url: pdfUrl } },
+    metaData: { fileName: filename },
+  }, {
+    embedMode: 'SIZED_CONTAINER',
+    showDownloadPDF: false,
+    showPrintPDF: false,
+    showAnnotationTools: false,
+    showLeftHandPanel: false,
+    showZoomControl: false,
   });
 
-  prevBtn.addEventListener('click', () => {
+  const adobeViewer = await previewFilePromise;
+  const apis = await adobeViewer.getAPIs();
+  const metadata = await apis.getPDFMetadata().catch(() => null);
+  totalPages = metadata?.numPages || null;
+
+  if (currentPage > 1) {
+    await apis.gotoLocation(currentPage).catch(() => {});
+  }
+  updateIndicator();
+  updateNavState();
+
+  prevBtn.addEventListener('click', async () => {
     if (currentPage <= 1) return;
     currentPage -= 1;
-    renderPage(currentPage);
+    await apis.gotoLocation(currentPage).catch(() => {});
+    updateIndicator();
+    updateNavState();
   });
 
-  nextBtn.addEventListener('click', () => {
+  nextBtn.addEventListener('click', async () => {
     if (totalPages != null && currentPage >= totalPages) return;
     currentPage += 1;
-    renderPage(currentPage);
+    await apis.gotoLocation(currentPage).catch(() => {});
+    updateIndicator();
+    updateNavState();
   });
-
-  totalPages = await fetchPageCount(baseUrl, assetIdPath);
-  renderPage(currentPage);
 }
