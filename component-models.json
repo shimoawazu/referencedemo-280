@@ -839,13 +839,6 @@
         "value": 1,
         "valueType": "number",
         "description": "Page number to display first"
-      },
-      {
-        "component": "boolean",
-        "name": "showPageIndicator",
-        "label": "Show Page Indicator",
-        "value": true,
-        "valueType": "boolean"
       }
     ]
   },

@@ -104,7 +104,6 @@ export default async function decorate(block) {
   const title = getTextFromChild(1);
   const startPageRaw = parseInt(getTextFromChild(2), 10);
   const startPage = Number.isFinite(startPageRaw) && startPageRaw > 0 ? startPageRaw : 1;
-  const showPageIndicator = getTextFromChild(3)?.toLowerCase() !== 'false';
 
   block.innerHTML = '';
 
@@ -118,46 +117,12 @@ export default async function decorate(block) {
     viewer.append(titleEl);
   }
 
-  const stage = document.createElement('div');
-  stage.className = 'dynamic-media-pdf-viewer-stage';
-
-  const prevBtn = document.createElement('button');
-  prevBtn.type = 'button';
-  prevBtn.className = 'dynamic-media-pdf-viewer-nav dynamic-media-pdf-viewer-prev';
-  prevBtn.setAttribute('aria-label', 'Previous page');
-  prevBtn.disabled = true;
-
   const embedHost = document.createElement('div');
   embedHost.className = 'dynamic-media-pdf-viewer-embed';
   embedHost.id = `dynamic-media-pdf-viewer-embed-${Math.random().toString(36).slice(2, 10)}`;
-
-  const nextBtn = document.createElement('button');
-  nextBtn.type = 'button';
-  nextBtn.className = 'dynamic-media-pdf-viewer-nav dynamic-media-pdf-viewer-next';
-  nextBtn.setAttribute('aria-label', 'Next page');
-  nextBtn.disabled = true;
-
-  stage.append(prevBtn, embedHost, nextBtn);
-  viewer.append(stage);
-
-  const indicator = document.createElement('p');
-  indicator.className = 'dynamic-media-pdf-viewer-indicator';
-  if (showPageIndicator) viewer.append(indicator);
+  viewer.append(embedHost);
 
   block.append(viewer);
-
-  let currentPage = startPage;
-  let totalPages = null;
-
-  function updateIndicator() {
-    if (!showPageIndicator) return;
-    indicator.textContent = totalPages ? `${currentPage} / ${totalPages}` : `${currentPage}`;
-  }
-
-  function updateNavState() {
-    prevBtn.disabled = currentPage <= 1;
-    nextBtn.disabled = totalPages != null && currentPage >= totalPages;
-  }
 
   const AdobeDC = await waitForAdobeDCView();
   const adobeDCView = new AdobeDC.View({ clientId: PDF_EMBED_CLIENT_ID, divId: embedHost.id });
@@ -173,30 +138,9 @@ export default async function decorate(block) {
     showZoomControl: false,
   });
 
-  const adobeViewer = await previewFilePromise;
-  const apis = await adobeViewer.getAPIs();
-  const metadata = await apis.getPDFMetadata().catch(() => null);
-  totalPages = metadata?.numPages || null;
-
-  if (currentPage > 1) {
-    await apis.gotoLocation(currentPage).catch(() => {});
+  if (startPage > 1) {
+    const adobeViewer = await previewFilePromise;
+    const apis = await adobeViewer.getAPIs();
+    await apis.gotoLocation(startPage).catch(() => {});
   }
-  updateIndicator();
-  updateNavState();
-
-  prevBtn.addEventListener('click', async () => {
-    if (currentPage <= 1) return;
-    currentPage -= 1;
-    await apis.gotoLocation(currentPage).catch(() => {});
-    updateIndicator();
-    updateNavState();
-  });
-
-  nextBtn.addEventListener('click', async () => {
-    if (totalPages != null && currentPage >= totalPages) return;
-    currentPage += 1;
-    await apis.gotoLocation(currentPage).catch(() => {});
-    updateIndicator();
-    updateNavState();
-  });
 }
