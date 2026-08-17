@@ -53,8 +53,7 @@ export default async function decorate(block) {
           let dmUrl = dmUrlEl || "https://smartimaging.scene7.com/is/image/DynamicMediaNA/";
                   
           imageEl.setAttribute("data-src", dmUrl + (dmUrl.endsWith('/') ? "" : "/") + imageName);
-          //imageEl.setAttribute("src", dmUrl + (dmUrl.endsWith('/') ? "" : "/") + imageName);
-          imageEl.setAttribute("src", dmUrl + (dmUrl.endsWith('/') ? "" : "/") + imageName);
+          imageEl.setAttribute("src", "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
           imageEl.setAttribute("alt", altText ? altText : 'dynamic media image');
           imageEl.setAttribute("data-mode", "smartcrop");
           block.innerHTML = '';
