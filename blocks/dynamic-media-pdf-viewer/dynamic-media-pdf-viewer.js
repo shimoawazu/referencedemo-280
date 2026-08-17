@@ -1,6 +1,10 @@
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
 import { getHostname } from '../../scripts/utils.js';
-import { fetchPlaceholders } from '../../scripts/aem.js';
+
+// Registered against author-p154442-e1620921.adobeaemcloud.com; add the
+// aem.page/aem.live domains in the Adobe Developer Console once this block
+// is tested on preview/production.
+const PDF_EMBED_CLIENT_ID = '094f4e938b0045ea8a6e598165f1c41b';
 
 const urnPattern = /(\/adobe\/assets\/urn:[^/]+)/i;
 
@@ -142,17 +146,6 @@ export default async function decorate(block) {
 
   block.append(viewer);
 
-  const placeholders = await fetchPlaceholders().catch(() => ({}));
-  const clientId = placeholders.pdfEmbedClientId;
-  if (!clientId) {
-    stage.innerHTML = '';
-    const errorMsg = document.createElement('p');
-    errorMsg.className = 'dynamic-media-pdf-viewer-error';
-    errorMsg.textContent = 'PDF viewer is not configured: set the "pdfEmbedClientId" placeholder to an Adobe PDF Embed API client ID.';
-    stage.append(errorMsg);
-    return;
-  }
-
   let currentPage = startPage;
   let totalPages = null;
 
@@ -167,7 +160,7 @@ export default async function decorate(block) {
   }
 
   const AdobeDC = await waitForAdobeDCView();
-  const adobeDCView = new AdobeDC.View({ clientId, divId: embedHost.id });
+  const adobeDCView = new AdobeDC.View({ clientId: PDF_EMBED_CLIENT_ID, divId: embedHost.id });
   const previewFilePromise = adobeDCView.previewFile({
     content: { location: { url: pdfUrl } },
     metaData: { fileName: filename },
