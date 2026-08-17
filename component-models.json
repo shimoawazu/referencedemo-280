@@ -831,14 +831,6 @@
         "label": "Title / Alt Text",
         "description": "Accessible title shown above the viewer",
         "valueType": "string"
-      },
-      {
-        "component": "number",
-        "name": "startPage",
-        "label": "Start Page",
-        "value": 1,
-        "valueType": "number",
-        "description": "Page number to display first"
       }
     ]
   },

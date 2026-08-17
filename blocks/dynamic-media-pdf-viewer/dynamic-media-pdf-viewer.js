@@ -102,8 +102,6 @@ export default async function decorate(block) {
   };
 
   const title = getTextFromChild(1);
-  const startPageRaw = parseInt(getTextFromChild(2), 10);
-  const startPage = Number.isFinite(startPageRaw) && startPageRaw > 0 ? startPageRaw : 1;
 
   block.innerHTML = '';
 
@@ -126,7 +124,7 @@ export default async function decorate(block) {
 
   const AdobeDC = await waitForAdobeDCView();
   const adobeDCView = new AdobeDC.View({ clientId: PDF_EMBED_CLIENT_ID, divId: embedHost.id });
-  const previewFilePromise = adobeDCView.previewFile({
+  adobeDCView.previewFile({
     content: { location: { url: pdfUrl } },
     metaData: { fileName: filename },
   }, {
@@ -137,10 +135,4 @@ export default async function decorate(block) {
     showLeftHandPanel: false,
     showZoomControl: false,
   });
-
-  if (startPage > 1) {
-    const adobeViewer = await previewFilePromise;
-    const apis = await adobeViewer.getAPIs();
-    await apis.gotoLocation(startPage).catch(() => {});
-  }
 }
