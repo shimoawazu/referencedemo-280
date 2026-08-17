@@ -371,7 +371,6 @@ const experimentationConfig = {
 	  
 		  const blockBeingDecorated = whatBlockIsThis(a);
 		  let blockName = '';
-		  let altText = '';
 		  let rotate = '';
 		  let flip = '';
 		  let cropValue = '';
@@ -401,13 +400,12 @@ const experimentationConfig = {
 			  const siblings = [];
 			  let current = container.nextElementSibling;
 	  
-				// Collect up to 10 siblings (imageTitle, enableSmartCrop, preset, extend,
-				// backgroundcolor, rotate, flip, crop, advance_parameters, showInfoIcon) in order
-				while (current && siblings.length < 10) {
+				// Collect up to 4 siblings (preset, rotate, flip, crop) in order
+				while (current && siblings.length < 9) {
 							siblings.push(current);
 							current = current.nextElementSibling;
 				}
-
+	  
 			  // Helper to safely consume a sibling element's trimmed text and remove it
 			  const consumeSiblingText = (el) => {
 				if (!el) return '';
@@ -415,11 +413,9 @@ const experimentationConfig = {
 				if (text) el.remove();
 				return text;
 			  };
-
-			  // Order matters: imageTitle, enableSmartCrop, preset, extend, backgroundcolor,
-			  // rotate, flip, crop, advance_parameters, showInfoIcon
+	  
+			  // Order matters: preset, rotate, flip, crop
 			  if (siblings.length > 0) {
-				altText = consumeSiblingText(siblings.shift());
 				enableSmartCrop = consumeSiblingText(siblings.shift()) || false;
 				preset = consumeSiblingText(siblings.shift());
 				extend = consumeSiblingText(siblings.shift());
@@ -576,7 +572,7 @@ const experimentationConfig = {
 		  const img = document.createElement('img');
 		  img.loading = 'lazy';
 		  img.src = fallbackUrl;
-		  img.alt = altText || '';
+		  //img.alt = href !== a.title ? a.title || '' : '';
 	  
 		  pic.appendChild(img);
 		  dmOpenApiDiv.appendChild(pic);
