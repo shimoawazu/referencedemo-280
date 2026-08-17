@@ -157,6 +157,17 @@
           "name": "dm_alttext",
           "label": "Alt Text",
           "valueType": "string"
+        },
+        {
+          "condition": {
+            "===": [{ "var": "delivery_Type" }, "dm-openapi"]
+          },
+          "component": "boolean",
+          "name": "enableSmartCrop",
+          "label": "Enable Smart Crop",
+          "description": "Enable smart crop on the asset. Requires Smart Crop presets configured on the DM asset/folder.",
+          "value": false,
+          "valueType": "boolean"
         }
       ]
     }

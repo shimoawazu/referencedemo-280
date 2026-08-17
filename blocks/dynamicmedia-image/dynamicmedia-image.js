@@ -1,4 +1,5 @@
 import { getDynamicMediaServerURL } from '../../scripts/utils.js';
+import { getMetadataUrl } from '../../scripts/scripts.js';
 
 
 /**
@@ -93,28 +94,91 @@ export default async function decorate(block) {
         const flipVal = inputs[3]?.textContent?.trim();
         const cropVal = inputs[4]?.textContent?.trim();
         const altFromAuthor = inputs[5]?.textContent?.trim();
+        const enableSmartCrop = inputs[6]?.textContent?.trim();
 
         if (!baseUrl) {
           console.error("OpenAPI delivery URL not found. Ensure the DM delivery repository asset is selected.");
           return;
         }
 
-        const params = new URLSearchParams();
-        params.set('width', '1400');
-        params.set('quality', '85');
-        if (rotationVal && rotationVal.toLowerCase() !== 'none') params.set('rotate', rotationVal);
-        if (flipVal) params.set('flip', flipVal.toLowerCase());
-        if (cropVal) params.set('crop', cropVal.toLowerCase());
-
-        const finalUrl = `${baseUrl}?${params.toString()}`;
-
-        const img = document.createElement('img');
-        img.setAttribute('src', finalUrl);
-        img.setAttribute('alt', altFromAuthor || 'dynamic media image');
-        img.setAttribute('loading', 'lazy');
+        // Shared modifiers (no fixed width, so each smart crop breakpoint keeps its own size)
+        const modifierParams = new URLSearchParams();
+        modifierParams.set('quality', '85');
+        if (rotationVal && rotationVal.toLowerCase() !== 'none') modifierParams.set('rotate', rotationVal);
+        if (flipVal) modifierParams.set('flip', flipVal.toLowerCase());
+        if (cropVal) modifierParams.set('crop', cropVal.toLowerCase());
 
         block.innerHTML = '';
-        block.appendChild(img);
+
+        let smartcrops;
+        if (enableSmartCrop === 'true') {
+          const metadataUrl = getMetadataUrl(baseUrl);
+          if (metadataUrl) {
+            try {
+              const response = await fetch(metadataUrl);
+              if (response.ok) {
+                const metadata = await response.json();
+                smartcrops = metadata?.repositoryMetadata?.smartcrops;
+              } else {
+                console.error(`Failed to fetch metadata: ${response.status}`);
+              }
+            } catch (error) {
+              console.error('Error fetching Dynamic Media metadata:', error);
+            }
+          }
+        }
+
+        const cropKeys = smartcrops ? Object.keys(smartcrops) : [];
+        if (cropKeys.length) {
+          // Sort by width desc (largest → smallest) so breakpoints stack correctly
+          const cropOrder = cropKeys.sort((a, b) => {
+            const widthA = parseInt(smartcrops[a].width, 10) || 0;
+            const widthB = parseInt(smartcrops[b].width, 10) || 0;
+            return widthB - widthA;
+          });
+          const largestCropWidth = Math.max(
+            ...cropOrder.map((cropName) => parseInt(smartcrops[cropName].width, 10) || 0),
+          );
+          const extraLargeBreakpoint = Math.max(largestCropWidth + 1, 1300);
+
+          const pic = document.createElement('picture');
+
+          // Extra-large screen source (no smartcrop, full image)
+          const sourceExtraLarge = document.createElement('source');
+          sourceExtraLarge.srcset = `${baseUrl}?${modifierParams.toString()}`;
+          sourceExtraLarge.media = `(min-width: ${extraLargeBreakpoint}px)`;
+          pic.appendChild(sourceExtraLarge);
+
+          cropOrder.forEach((cropName) => {
+            const cropInfo = smartcrops[cropName];
+            if (!cropInfo) return;
+            const minWidth = parseInt(cropInfo.width, 10) || 0;
+            const cropParams = new URLSearchParams(modifierParams);
+            cropParams.set('smartcrop', cropName);
+            const source = document.createElement('source');
+            source.srcset = `${baseUrl}?${cropParams.toString()}`;
+            if (minWidth > 0) source.media = `(min-width: ${minWidth}px)`;
+            pic.appendChild(source);
+          });
+
+          const img = document.createElement('img');
+          img.setAttribute('src', `${baseUrl}?${modifierParams.toString()}`);
+          img.setAttribute('alt', altFromAuthor || 'dynamic media image');
+          img.setAttribute('loading', 'lazy');
+          pic.appendChild(img);
+
+          block.appendChild(pic);
+        } else {
+          const singleImageParams = new URLSearchParams(modifierParams);
+          singleImageParams.set('width', '1400');
+
+          const img = document.createElement('img');
+          img.setAttribute('src', `${baseUrl}?${singleImageParams.toString()}`);
+          img.setAttribute('alt', altFromAuthor || 'dynamic media image');
+          img.setAttribute('loading', 'lazy');
+
+          block.appendChild(img);
+        }
       }
       
   } else{
