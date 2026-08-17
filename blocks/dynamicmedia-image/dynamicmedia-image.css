@@ -1,12 +1,12 @@
 /* stylelint-disable no-descending-specificity */
-.dynamic-media {
+.dynamicmedia-image {
     display: grid;
     grid-template-areas: "teaser";
     align-items: end;
     justify-items: center;
 }
 
-.dynamic-media > div {
+.dynamicmedia-image img {
     grid-area: teaser;
     width: 100%;
 }
