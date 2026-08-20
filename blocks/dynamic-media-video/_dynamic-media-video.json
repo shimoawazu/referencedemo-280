@@ -21,11 +21,11 @@
       "id": "dynamic-media-video",
       "fields": [
         {
-          "component": "custom-asset-namespace:custom-asset",
+          "component": "text",
+          "valueType": "string",
+          "required": true,
           "name": "video",
-          "label": "Video",
-          "configUrl": "/content/dam/config/video.config.json",
-          "valueType": "string"
+          "label": "Video Url"
         },
         {
           "component": "boolean",
