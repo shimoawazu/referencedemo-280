@@ -548,7 +548,9 @@ button:disabled:hover::after {
 }
 
 a.button.secondary,
-button.secondary {
+a.button.button-secondary,
+button.secondary,
+button.button-secondary {
   background-color: unset;
   border: 2px solid currentcolor;
   color: var(--text-color);

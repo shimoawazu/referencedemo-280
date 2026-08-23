@@ -151,20 +151,24 @@
       },
       {
         "component": "select",
-        "name": "linkType",
-        "label": "Type",
+        "name": "ctastyle",
+        "label": "CTA Style",
         "options": [
           {
             "name": "default",
             "value": ""
           },
           {
-            "name": "primary",
-            "value": "primary"
+            "name": "Button",
+            "value": "button"
           },
           {
-            "name": "secondary",
-            "value": "secondary"
+            "name": "Button secondary",
+            "value": "button-secondary"
+          },
+          {
+            "name": "Link",
+            "value": "link"
           }
         ]
       }
