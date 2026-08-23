@@ -36,7 +36,7 @@
         },
         {
           "component": "select",
-          "name": "ctastyle",
+          "name": "linkType",
           "label": "CTA Style",
           "options": [
             {
