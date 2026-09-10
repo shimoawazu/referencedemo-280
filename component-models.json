@@ -7021,12 +7021,41 @@
     "id": "weather-band",
     "fields": [
       {
-        "component": "text",
-        "valueType": "string",
+        "component": "select",
         "name": "location",
         "label": "地名",
-        "description": "天気を表示する場所(例: 長野県)",
-        "value": "長野県"
+        "description": "天気を表示する場所を選択してください",
+        "value": "長野",
+        "options": [
+          {
+            "name": "札幌",
+            "value": "札幌"
+          },
+          {
+            "name": "仙台",
+            "value": "仙台"
+          },
+          {
+            "name": "長野",
+            "value": "長野"
+          },
+          {
+            "name": "東京",
+            "value": "東京"
+          },
+          {
+            "name": "金沢",
+            "value": "金沢"
+          },
+          {
+            "name": "神戸",
+            "value": "神戸"
+          },
+          {
+            "name": "熊本",
+            "value": "熊本"
+          }
+        ]
       }
     ]
   }

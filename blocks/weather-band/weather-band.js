@@ -2,25 +2,15 @@ import { decorateIcons } from '../../scripts/aem.js';
 
 const WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
 
-const JA_TO_ROMAJI = {
-  札幌: 'Sapporo',
-  仙台: 'Sendai',
-  東京: 'Tokyo',
-  横浜: 'Yokohama',
-  名古屋: 'Nagoya',
-  京都: 'Kyoto',
-  大阪: 'Osaka',
-  神戸: 'Kobe',
-  広島: 'Hiroshima',
-  福岡: 'Fukuoka',
-  長野: 'Nagano',
-  新潟: 'Niigata',
-  金沢: 'Kanazawa',
-  松本: 'Matsumoto',
-  軽井沢: 'Karuizawa',
+const LOCATION_COORDS = {
+  札幌: { lat: 43.0618, lon: 141.3545 },
+  仙台: { lat: 38.2682, lon: 140.8694 },
+  長野: { lat: 36.6513, lon: 138.1810 },
+  東京: { lat: 35.6762, lon: 139.6503 },
+  金沢: { lat: 36.5613, lon: 136.6562 },
+  神戸: { lat: 34.6901, lon: 135.1956 },
+  熊本: { lat: 32.8032, lon: 130.7079 },
 };
-
-const LOCATION_SUFFIX_PATTERN = /[都道府県市区町村]$/;
 
 function weatherCodeToIcon(code) {
   if (code === 0 || code === 1) return { name: 'sun', extraClass: 'is-sunny' };
@@ -84,40 +74,6 @@ function buildWeatherBandMarkup(location, weatherData) {
     </div>`;
 }
 
-function stripLocationSuffix(name) {
-  const stripped = name.replace(LOCATION_SUFFIX_PATTERN, '');
-  return stripped.length > 0 ? stripped : name;
-}
-
-async function geocode(query) {
-  const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=ja&format=json`);
-  const data = await res.json();
-  return data?.results?.[0] || null;
-}
-
-// Tries, in order: 1) location with any address suffix (都/道/府/県/市/区/町/村)
-// stripped, 2) the original location as authored, 3) a romaji lookup for a
-// handful of major cities. Returns the first successful geocoding result.
-async function resolvePlace(location) {
-  const stripped = stripLocationSuffix(location);
-
-  let place = await geocode(stripped);
-  if (place) return place;
-
-  if (stripped !== location) {
-    place = await geocode(location);
-    if (place) return place;
-  }
-
-  const romaji = JA_TO_ROMAJI[stripped] || JA_TO_ROMAJI[location];
-  if (romaji) {
-    place = await geocode(romaji);
-    if (place) return place;
-  }
-
-  return null;
-}
-
 function readLocation(block) {
   const authored = block.querySelector('[data-aue-prop="location"]');
   if (authored) return authored.textContent.trim();
@@ -132,16 +88,14 @@ export default async function decorate(block) {
   block.setAttribute('aria-live', 'polite');
   block.innerHTML = `<p class="weather-band-loading">${location}の天気を取得中…</p>`;
 
-  if (!location) {
-    block.innerHTML = '<p class="weather-band-error">天気情報を取得できません</p>';
+  const coords = LOCATION_COORDS[location];
+  if (!coords) {
+    block.innerHTML = `<p class="weather-band-error">${location}の天気情報を取得できません</p>`;
     return;
   }
 
   try {
-    const place = await resolvePlace(location);
-    if (!place) throw new Error('location not found');
-
-    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=7`);
+    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=7`);
     const weatherData = await weatherRes.json();
 
     block.innerHTML = buildWeatherBandMarkup(location, weatherData);
