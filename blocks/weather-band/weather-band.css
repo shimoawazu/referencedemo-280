@@ -52,6 +52,7 @@
 
 /* 左側:現在地の天気サマリー */
 .weather-band-today {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 18px;
@@ -71,8 +72,38 @@
 }
 
 .weather-band-location {
+  position: relative;
+  display: inline-block;
+}
+
+.weather-band-location::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid var(--wb-text-muted);
+  border-bottom: 1px solid var(--wb-text-muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.weather-band-location-select {
   font-size: 13px;
   color: var(--wb-text-muted);
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--wb-border);
+  padding: 0 16px 2px 0;
+  cursor: pointer;
+  appearance: none;
+}
+
+.weather-band-location-select:hover,
+.weather-band-location-select:focus-visible {
+  border-bottom-color: var(--wb-accent);
 }
 
 .weather-band-temp {

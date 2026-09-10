@@ -37,6 +37,13 @@ function weekdayLabel(dateStr) {
   return WEEKDAY_LABELS[date.getDay()];
 }
 
+function buildLocationSelect(selectedLocation) {
+  const options = Object.keys(LOCATION_COORDS)
+    .map((name) => `<option value="${name}"${name === selectedLocation ? ' selected' : ''}>${name}</option>`)
+    .join('');
+  return `<select class="weather-band-location-select" aria-label="地域を選択">${options}</select>`;
+}
+
 function buildWeatherBandMarkup(location, weatherData) {
   const { current, daily } = weatherData;
   const todayIcon = weatherCodeToIcon(current.weather_code);
@@ -63,7 +70,7 @@ function buildWeatherBandMarkup(location, weatherData) {
       <div class="weather-band-today">
         <span class="weather-band-icon icon icon-${todayIcon.name}-accent" aria-hidden="true"></span>
         <div class="weather-band-today-info">
-          <div class="weather-band-location">${location}</div>
+          <div class="weather-band-location">${buildLocationSelect(location)}</div>
           <div class="weather-band-temp-row">
             <span class="weather-band-temp">${Math.round(current.temperature_2m)}&deg;C</span>
           </div>
@@ -71,6 +78,26 @@ function buildWeatherBandMarkup(location, weatherData) {
         </div>
       </div>
       <div class="weather-band-week">${days}</div>
+    </div>`;
+}
+
+function buildLoadingMarkup(location) {
+  return `
+    <div class="weather-band-today">
+      <div class="weather-band-today-info">
+        <div class="weather-band-location">${buildLocationSelect(location)}</div>
+        <p class="weather-band-loading">${location}の天気を取得中…</p>
+      </div>
+    </div>`;
+}
+
+function buildErrorMarkup(location) {
+  return `
+    <div class="weather-band-today">
+      <div class="weather-band-today-info">
+        <div class="weather-band-location">${buildLocationSelect(location)}</div>
+        <p class="weather-band-error">${location}の天気情報を取得できません</p>
+      </div>
     </div>`;
 }
 
@@ -82,15 +109,12 @@ function readLocation(block) {
     || '';
 }
 
-export default async function decorate(block) {
-  const location = readLocation(block);
-
-  block.setAttribute('aria-live', 'polite');
-  block.innerHTML = `<p class="weather-band-loading">${location}の天気を取得中…</p>`;
+async function loadAndRenderWeather(block, location) {
+  block.innerHTML = buildLoadingMarkup(location);
 
   const coords = LOCATION_COORDS[location];
   if (!coords) {
-    block.innerHTML = `<p class="weather-band-error">${location}の天気情報を取得できません</p>`;
+    block.innerHTML = buildErrorMarkup(location);
     return;
   }
 
@@ -101,6 +125,22 @@ export default async function decorate(block) {
     block.innerHTML = buildWeatherBandMarkup(location, weatherData);
     decorateIcons(block);
   } catch (err) {
-    block.innerHTML = `<p class="weather-band-error">${location}の天気情報を取得できません</p>`;
+    block.innerHTML = buildErrorMarkup(location);
   }
+}
+
+export default async function decorate(block) {
+  const initialLocation = readLocation(block);
+
+  block.setAttribute('aria-live', 'polite');
+
+  // Delegated on the block (not the <select>) so it keeps working across
+  // the innerHTML swaps loadAndRenderWeather does on every location change.
+  block.addEventListener('change', (event) => {
+    if (event.target.matches('.weather-band-location-select')) {
+      loadAndRenderWeather(block, event.target.value);
+    }
+  });
+
+  await loadAndRenderWeather(block, initialLocation);
 }
