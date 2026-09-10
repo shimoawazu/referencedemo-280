@@ -64,7 +64,12 @@
 .weather-band-icon {
   font-size: 44px;
   line-height: 1;
-  color: var(--wb-accent);
+}
+
+.weather-band-icon img {
+  width: 44px;
+  height: 44px;
+  display: block;
 }
 
 .weather-band-location {
@@ -116,13 +121,14 @@
 .weather-band-day-icon {
   display: inline-block;
   font-size: 22px;
-  color: var(--wb-text-muted);
   margin: 6px 0;
 }
 
-/* 晴れマークだけアクセントカラーにする場合はJS側で is-sunny 等のクラスを付与 */
-.weather-band-day-icon.is-sunny {
-  color: var(--wb-accent);
+.weather-band-day-icon img {
+  width: 22px;
+  height: 22px;
+  display: block;
+  margin: 6px auto;
 }
 
 .weather-band-day-temps {
