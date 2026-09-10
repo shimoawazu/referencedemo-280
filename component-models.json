@@ -7016,5 +7016,18 @@
         "label": "Video Url"
       }
     ]
+  },
+  {
+    "id": "weather-band",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "location",
+        "label": "地名",
+        "description": "天気を表示する場所(例: 長野県)",
+        "value": "長野県"
+      }
+    ]
   }
 ]

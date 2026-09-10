@@ -1,0 +1,177 @@
+/*
+  想定するDOM構造(weather-band.js の decorate() が組み立てる想定):
+
+  <div class="weather-band">
+    <div class="weather-band-today">
+      <i class="weather-band-icon" aria-hidden="true">...</i>
+      <div class="weather-band-today-info">
+        <div class="weather-band-location">長野県</div>
+        <div class="weather-band-temp-row">
+          <span class="weather-band-temp">12&deg;C</span>
+        </div>
+        <div class="weather-band-condition">曇り &middot; キャンプ日和</div>
+      </div>
+    </div>
+    <div class="weather-band-week">
+      <div class="weather-band-day is-today">
+        <div class="weather-band-day-label">今日</div>
+        <i class="weather-band-day-icon" aria-hidden="true">...</i>
+        <div class="weather-band-day-temps">
+          <span class="weather-band-day-high">18&deg;</span>
+          <span class="weather-band-day-low">10&deg;</span>
+        </div>
+      </div>
+      <!-- 以下、翌日〜6日後ぶん繰り返し(合計7カラム) -->
+    </div>
+  </div>
+*/
+
+.weather-band {
+  --wb-bg: #FBF8F3;
+  --wb-border: #E8E2D6;
+  --wb-text: #1A1A1A;
+  --wb-text-muted: #6B6559;
+  --wb-text-faint: #9C9585;
+  --wb-accent: #C2410C;
+  --wb-accent-bg: #FCE8DA;
+
+  width: 100%;
+  background: var(--wb-bg);
+  border-top: 1px solid var(--wb-border);
+  border-bottom: 1px solid var(--wb-border);
+}
+
+.weather-band > div {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* 左側:現在地の天気サマリー */
+.weather-band-today {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-right: 32px;
+  border-right: 1px solid var(--wb-border);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.weather-band-icon {
+  font-size: 44px;
+  line-height: 1;
+  color: var(--wb-accent);
+}
+
+.weather-band-location {
+  font-size: 13px;
+  color: var(--wb-text-muted);
+}
+
+.weather-band-temp {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--wb-text);
+}
+
+.weather-band-condition {
+  font-size: 12px;
+  color: var(--wb-text-muted);
+  margin-top: 2px;
+}
+
+/* 右側:7日間の予報ストリップ */
+.weather-band-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.weather-band-day {
+  text-align: center;
+  padding: 6px 4px;
+  border-radius: 8px;
+}
+
+.weather-band-day.is-today {
+  background: var(--wb-accent-bg);
+}
+
+.weather-band-day-label {
+  font-size: 12px;
+  color: var(--wb-text-muted);
+}
+
+.weather-band-day.is-today .weather-band-day-label {
+  font-weight: 500;
+  color: var(--wb-accent);
+}
+
+.weather-band-day-icon {
+  display: inline-block;
+  font-size: 22px;
+  color: var(--wb-text-muted);
+  margin: 6px 0;
+}
+
+/* 晴れマークだけアクセントカラーにする場合はJS側で is-sunny 等のクラスを付与 */
+.weather-band-day-icon.is-sunny {
+  color: var(--wb-accent);
+}
+
+.weather-band-day-temps {
+  font-size: 13px;
+  color: var(--wb-text);
+}
+
+.weather-band-day-low {
+  color: var(--wb-text-faint);
+}
+
+/* ローディング・エラー表示 */
+.weather-band-loading,
+.weather-band-error {
+  font-size: 14px;
+  color: var(--wb-text-muted);
+  padding: 28px 32px;
+}
+
+/* レスポンシブ:タブレット以下は7日分を横スクロールにする */
+@media (width < 1024px) {
+  .weather-band > div {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 20px 5%;
+  }
+
+  .weather-band-today {
+    border-right: none;
+    border-bottom: 1px solid var(--wb-border);
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+
+  .weather-band-week {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .weather-band-day {
+    flex: 0 0 72px;
+  }
+}
+
+@media (width < 768px) {
+  .weather-band > div {
+    padding: 20px 4%;
+  }
+}
