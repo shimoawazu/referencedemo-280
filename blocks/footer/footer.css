@@ -63,27 +63,27 @@ body.newsroom-theme footer .footer img {
   display: none;
 }
 
-/* リンクを3段(4列×3段)に・文字は小さめ(12px) */
+/* リンクを3段(4列×3段)に・文字は小さめ(10px) */
 body.newsroom-theme footer .footer ul {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-auto-flow: row;
   justify-content: start;
-  gap: 10px 40px;
+  gap: 8px 36px;
   padding: 0;
   margin: 0 0 24px;
 }
 
 body.newsroom-theme footer .footer ul li {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 /* 4段目: Copyright を右寄せ */
 body.newsroom-theme footer .footer p {
   text-align: right;
   color: #555;
-  font-size: 11px;
+  font-size: 10px;
   border-top: 1px solid #e5e5e5;
   padding-top: 16px;
 }
