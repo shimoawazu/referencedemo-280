@@ -41,9 +41,7 @@ footer .footer a:hover {
 }
 
 /* ============================================================
-   Newsroom footer theme — append to blocks/footer/footer.css
-   newsroom ページ(body.newsroom-theme)だけに適用。他ページ不変更。
-   footer1 の構造: ロゴ img / ul(12 リンク) / p(Copyright)
+   Newsroom footer theme (newsroom ページのみ、他ページ不変更)
    ============================================================ */
 
 /* 白地・黒文字 */
@@ -60,99 +58,37 @@ body.newsroom-theme footer .footer a:hover {
   color: #c8102e;
 }
 
-/* ロゴを白地で少し大きく */
+/* ロゴは非表示 */
 body.newsroom-theme footer .footer img {
-  width: 160px;
-  background-color: #fff;
+  display: none;
 }
 
-/* リンクを3段(横並び・折り返し)に。12項目 → 4列×3段 */
+/* リンクを3段(4列×3段)に・文字は小さめ(12px) */
 body.newsroom-theme footer .footer ul {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-auto-flow: row;
   justify-content: start;
-  gap: 12px 40px;
+  gap: 10px 40px;
   padding: 0;
   margin: 0 0 24px;
 }
 
 body.newsroom-theme footer .footer ul li {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* 4段目: Copyright を右寄せ */
 body.newsroom-theme footer .footer p {
   text-align: right;
   color: #555;
-  font-size: 12px;
+  font-size: 11px;
   border-top: 1px solid #e5e5e5;
   padding-top: 16px;
 }
 
-/* 画面が狭いときは段数を減らして崩れないように */
-@media (width < 900px) {
-  body.newsroom-theme footer .footer ul {
-    grid-template-columns: repeat(2, auto);
-  }
-  body.newsroom-theme footer .footer p {
-    text-align: left;
-  }
-}
-
-/* ============================================================
-   Newsroom footer theme — append to blocks/footer/footer.css
-   newsroom ページ(body.newsroom-theme)だけに適用。他ページ不変更。
-   footer1 の構造: ロゴ img / ul(12 リンク) / p(Copyright)
-   ============================================================ */
-
-/* 白地・黒文字 */
-body.newsroom-theme footer {
-  background-color: #fff;
-  color: #15284b;
-  border-top: 1px solid #e5e5e5;
-}
-
-body.newsroom-theme footer .footer a {
-  color: #15284b;
-}
-body.newsroom-theme footer .footer a:hover {
-  color: #c8102e;
-}
-
-/* ロゴを白地で少し大きく */
-body.newsroom-theme footer .footer img {
-  width: 160px;
-  background-color: #fff;
-}
-
-/* リンクを3段(横並び・折り返し)に。12項目 → 4列×3段 */
-body.newsroom-theme footer .footer ul {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-auto-flow: row;
-  justify-content: start;
-  gap: 12px 40px;
-  padding: 0;
-  margin: 0 0 24px;
-}
-
-body.newsroom-theme footer .footer ul li {
-  font-size: 14px;
-}
-
-/* 4段目: Copyright を右寄せ */
-body.newsroom-theme footer .footer p {
-  text-align: right;
-  color: #555;
-  font-size: 12px;
-  border-top: 1px solid #e5e5e5;
-  padding-top: 16px;
-}
-
-/* 画面が狭いときは段数を減らして崩れないように */
+/* 狭い画面では2列に */
 @media (width < 900px) {
   body.newsroom-theme footer .footer ul {
     grid-template-columns: repeat(2, auto);
