@@ -547,3 +547,92 @@ body.newsroom-theme header nav .nav-tools .icon-search-light {
 body.newsroom-theme header nav .nav-brand img {
   width: 120px;
 }
+
+/* ============================================================
+   Newsroom header theme — append to blocks/header/header.css
+   newsroom ページ(body.newsroom-theme)だけに適用。他ページ不変更。
+   nav1 は .nav-sections 内に 3つの <ul> を持つ:
+     1番目 = ユーティリティ(English/中文/お問い合わせ/サイトマップ/サイト内検索)
+     2番目 = 第1階層(企業情報/事業・サービス/投資家情報/採用情報)  ← 削除
+     3番目 = 第2階層(企業情報トップ/ニュースルーム/…)             ← メインナビ
+   ============================================================ */
+
+/* 白背景 */
+body.newsroom-theme header .nav-wrapper {
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* ロゴ: 大きく・白地に（取り込み画像の黒背景を白で上書き） */
+body.newsroom-theme header .nav-brand {
+  flex-basis: auto;
+}
+body.newsroom-theme header nav .nav-brand img {
+  width: 200px;
+  height: auto;
+  background-color: #fff;
+  padding: 6px 8px;
+  box-sizing: border-box;
+}
+
+/* nav-sections 全体を縦積みにして行を制御 */
+@media (width >= 900px) {
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* 1行目(ユーティリティ) = 右寄せ・小さめグレー */
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(1) {
+    justify-content: flex-end;   /* 右側へ移動 */
+    gap: 24px;
+    margin: 0 0 6px;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(1) > li > a {
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(1) > li > a:hover {
+    color: #c8102e;
+  }
+
+  /* 2行目(第1階層メニュー) = 削除 */
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(2) {
+    display: none;
+  }
+
+  /* 3行目(第2階層メニュー) = メインナビ: 紺・太字・区切り線で均等 */
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(3) {
+    gap: 0;
+    justify-content: flex-end;
+    margin: 0;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(3) > li {
+    color: #15284b;
+    padding: 0 24px;
+    border-left: 1px solid #d9d9d9;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(3) > li:first-child {
+    border-left: 0;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(3) > li > a {
+    color: #15284b;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:nth-of-type(3) > li > a:hover {
+    color: #c8102e;
+  }
+}
+
+/* 言語スイッチャ・検索アイコンを白背景向けに */
+body.newsroom-theme .lang-switcher .lang-button {
+  color: #15284b;
+  border: 1px solid rgb(0 0 0 / 30%);
+}
+body.newsroom-theme header .search.search-icon .icon,
+body.newsroom-theme header nav .nav-tools .icon-search-light {
+  background-color: #555;
+}
