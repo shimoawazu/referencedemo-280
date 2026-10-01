@@ -446,10 +446,19 @@ export default async function decorate(block) {
   console.log("langCode :"+langCode);
 
    const isAuthor = isAuthorEnvironment();
-    let navPath =`/${langCode}/nav`;
-  
-    if(isAuthor){
-      navPath = navMeta ? new URL(navMeta, window.location).pathname : `/content/${siteName}${PATH_PREFIX}/${langCode}/nav`;
+
+    // newsroom ページだけ nav1 を使う（編集画面=author・配信の両方で有効）
+    // 編集画面(Universal Editor)では metadata.json が効かず navMeta が空になるため、
+    // パス判定で nav1 を明示する。
+    const isNewsroom = window.location.pathname.includes('/ja/newsroom');
+    const navLeaf = isNewsroom ? 'nav1' : 'nav';
+
+    let navPath = `/${langCode}/${navLeaf}`;
+
+    if (isAuthor) {
+      navPath = navMeta
+        ? new URL(navMeta, window.location).pathname
+        : `/content/${siteName}${PATH_PREFIX}/${langCode}/${navLeaf}`;
     }
    
 

@@ -15,26 +15,21 @@ export default async function decorate(block) {
   const langCode = getLanguage();
   const siteName = await getSiteName();
   const isAuthor = isAuthorEnvironment();
-  let footerPath =`/${langCode}/footer`;
 
-  if(isAuthor){
+  // newsroom ページだけ footer1 を使う（編集画面=author・配信の両方で有効）
+  // 編集画面(Universal Editor)では metadata.json が効かず footerMeta が空になるため、
+  // パス判定で footer1 を明示する。
+  const isNewsroom = window.location.pathname.includes('/ja/newsroom');
+  const footerLeaf = isNewsroom ? 'footer1' : 'footer';
+
+  let footerPath = `/${langCode}/${footerLeaf}`;
+
+  if (isAuthor) {
     footerPath = footerMeta
-    ? new URL(footerMeta, window.location).pathname
-    : `/content/${siteName}${PATH_PREFIX}/${langCode}/footer`;
+      ? new URL(footerMeta, window.location).pathname
+      : `/content/${siteName}${PATH_PREFIX}/${langCode}/${footerLeaf}`;
   }
 
-  /*
-  // load footer as fragment
-  const footerMeta = getMetadata('footer');
-  //const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const pathSegments = window.location.pathname.split('/').filter(Boolean);
-  //console.log("pathSegments footer: ", pathSegments);
-  const parentPath = pathSegments.length > 2 ? `/${pathSegments.slice(0, 3).join('/')}` : '/';
-  //console.log("parentPath footer: ", parentPath);
-  const footerPath = parentPath=='/' ? footerMeta ? new URL(footerMeta, window.location).pathname : '/footer' : footerMeta ? new URL(footerMeta, window.location).pathname : parentPath+'/footer';
-  //console.log("footerPath footer: ", footerPath);
-  */
-  
   const fragment = await loadFragment(footerPath);
 
   // decorate footer DOM
