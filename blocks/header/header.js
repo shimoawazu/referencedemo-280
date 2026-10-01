@@ -461,6 +461,8 @@ export default async function decorate(block) {
         : `/content/${siteName}${PATH_PREFIX}/${langCode}/${navLeaf}`;
     }
    
+        // newsroom は白背景テーマを適用（header.css の .newsroom-theme を有効化）
+    if (isNewsroom) document.body.classList.add('newsroom-theme');
 
   
   //const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';

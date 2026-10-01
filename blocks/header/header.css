@@ -485,3 +485,65 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
   }
 
 }
+
+/* ============================================================
+   Newsroom header theme — append to blocks/header/header.css
+   newsroom ページ(body.newsroom-theme)だけに適用。他ページ不変更。
+   ============================================================ */
+
+/* 白背景 */
+body.newsroom-theme header .nav-wrapper {
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* メインメニューの文字色（紺系・太字） */
+body.newsroom-theme header nav .nav-sections ul > li > a {
+  color: #15284b;
+  font-size: 17px;
+  font-weight: 700;
+}
+body.newsroom-theme header nav .nav-sections ul > li > a:hover {
+  color: #c8102e; /* ORIX レッド系ホバー */
+}
+
+/* メインメニューの並び：均等＋項目間に区切り線 */
+@media (width >= 900px) {
+  body.newsroom-theme header nav .nav-sections ul {
+    gap: 0;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul > li {
+    color: #15284b;
+    padding: 0 28px;
+    border-left: 1px solid #d9d9d9;
+  }
+  body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul > li:first-child {
+    border-left: 0;
+  }
+}
+
+/* ユーティリティリンク（English / 中文 / お問い合わせ 等）は小さめ・グレー
+   nav1 の最初の ul をユーティリティ行として扱う */
+body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:first-of-type > li > a {
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+}
+body.newsroom-theme header nav .nav-sections .default-content-wrapper > ul:first-of-type > li > a:hover {
+  color: #c8102e;
+}
+
+/* 言語スイッチャ・検索アイコンを白背景向けに */
+body.newsroom-theme .lang-switcher .lang-button {
+  color: #15284b;
+  border: 1px solid rgb(0 0 0 / 30%);
+}
+body.newsroom-theme header .search.search-icon .icon,
+body.newsroom-theme header nav .nav-tools .icon-search-light {
+  background-color: #555;
+}
+
+/* ロゴサイズを少し大きめに（白背景で見やすく） */
+body.newsroom-theme header nav .nav-brand img {
+  width: 120px;
+}
