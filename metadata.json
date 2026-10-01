@@ -1,0 +1,11 @@
+{
+  "total": 1, "offset": 0, "limit": 1,
+  "data": [
+    {
+      "URL": "/content/referencedemo-280/language-masters/ja/newsroom",
+      "nav": "/content/referencedemo-280/language-masters/ja/nav1",
+      "footer": "/content/referencedemo-280/language-masters/ja/footer1"
+    }
+  ],
+  ":type": "sheet"
+}
