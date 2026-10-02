@@ -491,6 +491,12 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
    newsroom ページ(body.newsroom-theme)だけに適用。他ページ不変更。
    ============================================================ */
 
+ /* newsroom だけアクセントカラーを RGB(204,20,51)=#cc1433 に差し替え。
+   --main-accent-color を参照する下線・ボタン等がまとめてこの色になる */
+body.newsroom-theme {
+  --main-accent-color: #cc1433;
+}
+  
 /* 白背景 */
 body.newsroom-theme header .nav-wrapper {
   background-color: #fff;
