@@ -63,7 +63,7 @@ body.newsroom-theme footer .footer img {
   display: none;
 }
 
-/* リンクを4列×3段に・文字は小さく・行間は詰める・各行の高さを揃える */
+/* リンクを4列×3段に・文字は8px・行間を詰めて各行の高さを揃える */
 body.newsroom-theme footer .footer ul {
   list-style: none;
   display: grid;
@@ -77,7 +77,7 @@ body.newsroom-theme footer .footer ul {
 }
 
 body.newsroom-theme footer .footer ul li {
-  font-size: 10px;
+  font-size: 8px;
   line-height: 1.4;
   margin: 0;
 }
@@ -86,7 +86,7 @@ body.newsroom-theme footer .footer ul li {
 body.newsroom-theme footer .footer p {
   text-align: right;
   color: #777;
-  font-size: 10px;
+  font-size: 8px;
   border-top: 1px solid #e5e5e5;
   padding-top: 14px;
 }
