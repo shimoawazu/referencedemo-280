@@ -503,8 +503,13 @@ body.newsroom-theme header nav .nav-sections ul > li > a {
   font-size: 17px;
   font-weight: 700;
 }
+
+/* マウスオーバー: アンダーライン色 RGB(204,20,51) */
 body.newsroom-theme header nav .nav-sections ul > li > a:hover {
-  color: #c8102e; /* ORIX レッド系ホバー */
+  color: #cc1433;
+  text-decoration: underline;
+  text-decoration-color: #cc1433;
+  text-underline-offset: 4px;
 }
 
 /* メインメニューの並び：均等＋項目間に区切り線 */
