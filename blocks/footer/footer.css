@@ -42,17 +42,18 @@ footer .footer a:hover {
 
 /* ============================================================
    Newsroom footer theme (newsroom ページのみ、他ページ不変更)
+   背景=黒 / 文字=白
    ============================================================ */
 
-/* 白地・黒文字 */
+/* 黒背景・白文字 */
 body.newsroom-theme footer {
-  background-color: #fff;
-  color: #15284b;
-  border-top: 1px solid #e5e5e5;
+  background-color: #000;
+  color: #fff;
+  border-top: 1px solid #333;
 }
 
 body.newsroom-theme footer .footer a {
-  color: #15284b;
+  color: #fff;
 }
 body.newsroom-theme footer .footer a:hover {
   color: #c8102e;
@@ -75,8 +76,7 @@ body.newsroom-theme footer .footer ul {
   margin: 0 0 20px;
 }
 
-/* 文字サイズは a(リンク本体)に当てる。li だけに当てると
-   既存の a 側ルールが優先されて効かないため !important で確実に縮小 */
+/* 文字サイズは li と a 両方に指定（a が優先されるため）。確実に縮小 */
 body.newsroom-theme footer .footer ul li,
 body.newsroom-theme footer .footer ul li a {
   font-size: 11px !important;
@@ -84,13 +84,13 @@ body.newsroom-theme footer .footer ul li a {
   margin: 0;
 }
 
-/* 4段目: Copyright を右寄せ */
+/* 4段目: Copyright を右寄せ（白地→黒地なので薄いグレー白に） */
 body.newsroom-theme footer .footer p,
 body.newsroom-theme footer .footer p a {
   text-align: right;
-  color: #777;
+  color: #bbb;
   font-size: 11px !important;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #333;
   padding-top: 14px;
 }
 
