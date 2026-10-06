@@ -447,11 +447,12 @@ export default async function decorate(block) {
 
    const isAuthor = isAuthorEnvironment();
 
-    // newsroom ページだけ nav1 を使う（編集画面=author・配信の両方で有効）
+    // newsroom と about で nav1 を使う（編集画面=author・配信の両方で有効）
     // 編集画面(Universal Editor)では metadata.json が効かず navMeta が空になるため、
     // パス判定で nav1 を明示する。
-    const isNewsroom = window.location.pathname.includes('/ja/newsroom');
-    const navLeaf = isNewsroom ? 'nav1' : 'nav';
+    const isNav1Page = window.location.pathname.includes('/ja/newsroom')
+      || window.location.pathname.includes('/ja/about');
+    const navLeaf = isNav1Page ? 'nav1' : 'nav';
 
     let navPath = `/${langCode}/${navLeaf}`;
 
@@ -460,9 +461,9 @@ export default async function decorate(block) {
         ? new URL(navMeta, window.location).pathname
         : `/content/${siteName}${PATH_PREFIX}/${langCode}/${navLeaf}`;
     }
-   
-        // newsroom は白背景テーマを適用（header.css の .newsroom-theme を有効化）
-    if (isNewsroom) document.body.classList.add('newsroom-theme');
+
+        // newsroom / about は白背景テーマを適用（header.css の .newsroom-theme を有効化）
+    if (isNav1Page) document.body.classList.add('newsroom-theme');
 
   
   //const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';

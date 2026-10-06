@@ -16,11 +16,12 @@ export default async function decorate(block) {
   const siteName = await getSiteName();
   const isAuthor = isAuthorEnvironment();
 
-  // newsroom ページだけ footer1 を使う（編集画面=author・配信の両方で有効）
+  // newsroom と about で footer1 を使う（編集画面=author・配信の両方で有効）
   // 編集画面(Universal Editor)では metadata.json が効かず footerMeta が空になるため、
   // パス判定で footer1 を明示する。
-  const isNewsroom = window.location.pathname.includes('/ja/newsroom');
-  const footerLeaf = isNewsroom ? 'footer1' : 'footer';
+  const isFooter1Page = window.location.pathname.includes('/ja/newsroom')
+    || window.location.pathname.includes('/ja/about');
+  const footerLeaf = isFooter1Page ? 'footer1' : 'footer';
 
   let footerPath = `/${langCode}/${footerLeaf}`;
 
