@@ -1,10 +1,11 @@
 {
-  "total": 2,
+  "total": 3,
   "offset": 0,
-  "limit": 2,
+  "limit": 3,
   "data": [
     { "URL": "/ja/newsroom", "nav": "/ja/nav1", "footer": "/ja/footer1" },
-    { "URL": "/ja/about",    "nav": "/ja/nav1", "footer": "/ja/footer1" }
+    { "URL": "/ja/about", "nav": "/ja/nav1", "footer": "/ja/footer1" },
+    { "URL": "/ja/shared-fragment", "nav": "off", "footer": "off" }
   ],
   ":type": "sheet"
 }

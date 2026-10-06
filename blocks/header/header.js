@@ -433,15 +433,30 @@ async function applyCFTheme(themeCFReference) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // The metadata sheet may not be available in the Universal Editor authoring
+  // rendering, so also identify this page by its URL path.
+  const navMeta = String(getMetadata('nav') || '').trim();
+  const pagePath = window.location.pathname.toLowerCase();
+  const isSharedFragmentPage = /\/shared-fragment(?:\.html)?\/?$/.test(pagePath);
+
+  // Hide the complete site header on the shared fragment page. The nav=off
+  // metadata value handles published EDS pages; the path check also covers UE.
+  if (navMeta.toLowerCase() === 'off' || isSharedFragmentPage) {
+    const headerElement = block.closest('header');
+    if (headerElement) {
+      headerElement.remove();
+    } else {
+      block.remove();
+    }
+    return;
+  }
+
   // load nav as fragment
   //const locale = getMetadata('nav');
 
   const themeCFReference = getMetadata('theme_cf_reference');
   applyCFTheme(themeCFReference);
-  
 
-  
-  const navMeta = getMetadata('nav');
   const langCode = getLanguage();
   console.log("langCode :"+langCode);
 

@@ -11,10 +11,26 @@ import {
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
-  const footerMeta = getMetadata('footer');
+  const footerMeta = String(getMetadata('footer') || '').trim();
+  const isAuthor = isAuthorEnvironment();
+  const pagePath = window.location.pathname.toLowerCase();
+  const isSharedFragmentPage = isAuthor
+    && /\/shared-fragment(?:\.html)?\/?$/.test(pagePath);
+
+  // Hide the complete site footer on the shared fragment page. The footer=off
+  // metadata value handles published EDS pages; the path check also covers UE.
+  if (footerMeta.toLowerCase() === 'off' || isSharedFragmentPage) {
+    const footerElement = block.closest('footer');
+    if (footerElement) {
+      footerElement.remove();
+    } else {
+      block.remove();
+    }
+    return;
+  }
+
   const langCode = getLanguage();
   const siteName = await getSiteName();
-  const isAuthor = isAuthorEnvironment();
 
   // newsroom と about で footer1 を使う（編集画面=author・配信の両方で有効）
   // 編集画面(Universal Editor)では metadata.json が効かず footerMeta が空になるため、
