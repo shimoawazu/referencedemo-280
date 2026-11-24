@@ -693,16 +693,8 @@ picture {
   --main-accent-color: #EAD031;
 }
 
-/* 黄色の背景に白文字だと読みにくいため、CTA の文字色を暗くする */
-.hero-wrapper .button-container.cta-button a.button {
-  color: var(--text-dark);
-}
-.hero-wrapper .button-container.cta-button a.button::after {
-  color: var(--text-dark);
-}
-
-/* CTA: 黄色の背景に合わせて文字を暗い色に */
-.hero.block .button-container.cta-button a.button,
-.hero.block .button-container.cta-button a.button::after {
-  color: #1a1a1a;
+/* CTA: 黄色の背景に合わせて文字を暗い色に(他のルールを確実に上書き) */
+.hero-wrapper .hero.block .button-container.cta-button a.button:not(:hover),
+.hero-wrapper .hero.block .button-container.cta-button a.button:not(:hover)::after {
+  color: #1a1a1a !important;
 }
