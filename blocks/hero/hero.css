@@ -700,3 +700,9 @@ picture {
 .hero-wrapper .button-container.cta-button a.button::after {
   color: var(--text-dark);
 }
+
+/* CTA: 黄色の背景に合わせて文字を暗い色に */
+.hero.block .button-container.cta-button a.button,
+.hero.block .button-container.cta-button a.button::after {
+  color: #1a1a1a;
+}
