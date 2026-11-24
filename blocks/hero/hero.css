@@ -663,3 +663,27 @@ picture {
   color: var(--text-color);
   background: rgba(0, 0, 0, 0.08);
 }
+
+/* --------------------------
+   Overlay: テキスト/CTA を左の黒い領域に配置
+--------------------------- */
+.hero.block.overlay {
+  --hero-text-area: 58%; /* 画像の黒い部分の幅に合わせて調整 */
+}
+
+@media (width >= 768px) {
+  .hero.block.overlay {
+    justify-content: flex-start; /* 中央寄せ → 左寄せ */
+  }
+
+  .hero.block.overlay .hero-text {
+    width: var(--hero-text-area);
+    max-width: var(--hero-text-area);
+    padding: 20px 40px;
+  }
+
+  /* デフォルトの半透明黒背景は黄色部分で目立つので、黒い領域に溶け込ませる */
+  .hero.block.overlay:not(.theme-dark):not(.theme-light) .hero-text {
+    background: transparent;
+  }
+}
